@@ -200,6 +200,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     flip: true,
     playbackRate: true,
     aspectRatio: true,
+    playsInline: true,
     poster: `${BACKEND_URL}/image/${json_data.data.horizon_cover}`,
     airplay: true,
     theme: "#23ade5",
