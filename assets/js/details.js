@@ -194,7 +194,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     container: ".artplayer-app",
     fullscreen: true,
     fullscreenWeb: true,
-    poster: `http://anipi.test/image/${json_data.data.horizon_cover}`,
+    poster: `${BACKEND_URL}/image/${json_data.data.horizon_cover}`,
     airplay: true,
     theme: "#23ade5",
     screenshot: true,
