@@ -1,0 +1,74 @@
+body {
+  height: 100%;
+}
+.col-md-18 {
+  background-color: #252529 !important;
+
+  margin-bottom: 0px !important;
+}
+
+a {
+  text-decoration: none;
+}
+
+.card {
+  background-color: transparent;
+  border: none;
+}
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-line-clamp: 2;
+}
+.card-img-top:hover {
+  opacity: 0.6;
+}
+.text-box {
+  margin-top: 5px;
+  height: 40px;
+}
+.text-box {
+  position: relative;
+  padding: 0.1rem 0px 0px;
+  font-size: 14px;
+  transition: color 0.3s ease 0s;
+}
+
+.text-box .title {
+  white-space: normal;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  color: rgba(255, 255, 255, 0.968) !important;
+  font-weight: 500;
+  font-size: 14px;
+}
+.text-box .hot-update-info {
+  display: none;
+}
+.banner {
+  position: relative;
+  border-bottom: 3px dashed #f94622 !important;
+  border-top: 3px solid #f94622 !important;
+}
+
+.banner img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.text-box .title:hover {
+  color: #00dc5a !important;
+}
+
+@media screen and (max-width: 768px) {
+  .row-cols-1 > * {
+    flex: 0 0 auto;
+    width: 33.3%;
+  }
+}
