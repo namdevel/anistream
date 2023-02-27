@@ -205,6 +205,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     airplay: true,
     theme: "#23ade5",
     screenshot: true,
+    whitelist: ["*"],
     subtitle: {
       url: `${BACKEND_URL}/v1/subtitle/${defaultEpId}`,
       type: defaultSubType,
