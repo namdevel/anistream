@@ -195,7 +195,6 @@ document.addEventListener("DOMContentLoaded", async function () {
     fullscreen: true,
     fullscreenWeb: true,
     pip: true,
-    autoSize: true,
     autoMini: true,
     flip: true,
     playbackRate: true,
