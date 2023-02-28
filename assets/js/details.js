@@ -181,7 +181,6 @@ document.addEventListener("DOMContentLoaded", async function () {
     player.switchUrl(`${BACKEND_URL}/v1/video/${episodeId}`);
     player.subtitle.url = `${BACKEND_URL}/v1/subtitle/${episodeId}`;
     player.subtitle.type = subtitleType;
-    player.subtitle.encoding = "utf-8";
     console.log(subtitleType);
     audio.src = `${BACKEND_URL}/v1/audio/${episodeId}`;
     audio.load();
@@ -194,17 +193,10 @@ document.addEventListener("DOMContentLoaded", async function () {
     container: ".artplayer-app",
     fullscreen: true,
     fullscreenWeb: true,
-    pip: true,
-    autoMini: true,
-    flip: true,
-    playbackRate: true,
-    aspectRatio: true,
-    playsInline: true,
     poster: `${BACKEND_URL}/image/${json_data.data.horizon_cover}`,
     airplay: true,
     theme: "#23ade5",
     screenshot: true,
-    whitelist: ["*"],
     subtitle: {
       url: `${BACKEND_URL}/v1/subtitle/${defaultEpId}`,
       type: defaultSubType,
