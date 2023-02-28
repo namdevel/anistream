@@ -164,6 +164,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
   // get the episode_id value from the first button's data-episode attribute
   const defaultEpId = firstButton.getAttribute("data-episode");
+  const defaultPoster = firstButton.getAttribute("data-poster");
   const getSubtitleType = async (episodeId) => {
     const response = await fetch(`${BACKEND_URL}/v1/subtitle/${episodeId}`);
     const text = await response.text();
@@ -181,7 +182,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     player.switchUrl(`${BACKEND_URL}/v1/video/${episodeId}`);
     player.subtitle.url = `${BACKEND_URL}/v1/subtitle/${episodeId}`;
     player.subtitle.type = subtitleType;
-    console.log(subtitleType);
+    console.log(episodePoster);
     audio.src = `${BACKEND_URL}/v1/audio/${episodeId}`;
     audio.load();
   };
@@ -191,12 +192,28 @@ document.addEventListener("DOMContentLoaded", async function () {
   // Instantiate the video player
   const player = new Artplayer({
     container: ".artplayer-app",
+    title: json_data.data.title,
     fullscreen: true,
     fullscreenWeb: true,
-    poster: `${BACKEND_URL}/image/${json_data.data.horizon_cover}`,
+    miniProgressBar: true,
+    mutex: true,
+    autoPlayback: true,
+    setting: true,
+    playbackRate: true,
+    aspectRatio: true,
+    subtitleOffset: true,
+    backdrop: true,
+    playsInline: true,
+    airplay: true,
+    poster: `${BACKEND_URL}/image/${defaultPoster}`,
     airplay: true,
     theme: "#23ade5",
     screenshot: true,
+    lang: navigator.language.toLowerCase(),
+    whitelist: ["*"],
+    moreVideoAttr: {
+      crossOrigin: "anonymous",
+    },
     subtitle: {
       url: `${BACKEND_URL}/v1/subtitle/${defaultEpId}`,
       type: defaultSubType,
