@@ -24,3 +24,4 @@ ext/mkinstalldirs
 ext/run-tests.php
 ext/.deps
 ext/libtool
+.vscode/settings.json
