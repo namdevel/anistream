@@ -110,9 +110,12 @@ document.addEventListener("DOMContentLoaded", async function () {
         ? "ass"
         : "vtt";
     },
-    b = await g(u),
-    h = new Artplayer({
+    h = await g(u),
+    b = new Artplayer({
       container: ".artplayer-app",
+      url: `${BACKEND_URL}/v1/video/${u}`,
+      type: "m4s",
+      poster: `${BACKEND_URL}/image/${p}@720w_405h_1e_1c_90q.webp`,
       title: n.data.title,
       fullscreen: !0,
       fullscreenWeb: !0,
@@ -126,8 +129,6 @@ document.addEventListener("DOMContentLoaded", async function () {
       backdrop: !0,
       playsInline: !0,
       airplay: !0,
-      poster: `${BACKEND_URL}/image/${p}@720w_405h_1e_1c_90q.webp`,
-      airplay: !0,
       theme: "#ff0057",
       screenshot: !0,
       lang: navigator.language.toLowerCase(),
@@ -135,13 +136,13 @@ document.addEventListener("DOMContentLoaded", async function () {
       moreVideoAttr: { crossOrigin: "anonymous" },
       subtitle: {
         url: `${BACKEND_URL}/v1/subtitle/${u}`,
-        type: b,
+        type: h,
         style: { color: "#ffff", fontSize: "18px" },
         encoding: "utf-8",
       },
       layers: [
         {
-          html: '<img width="200" src="/assets/img/logo2.png">',
+          html: '<img width="150" src="/assets/img/logo2.png">',
           click: function () {
             window.open("https://github.com/namdevel"),
               console.info("You clicked on the custom layer");
@@ -150,53 +151,58 @@ document.addEventListener("DOMContentLoaded", async function () {
             position: "absolute",
             top: "20px",
             right: "20px",
-            opacity: ".9",
+            opacity: ".7",
           },
         },
       ],
-      url: `${BACKEND_URL}/v1/video/${u}`,
+      icons: {
+        loading: '<img src="/assets/img/wibuload.gif">',
+        state: '<img width="150" heigth="150" src="/assets/img/state.svg">',
+        indicator:
+          '<img width="16" heigth="16" src="/assets/img/indicator.svg">',
+      },
     }),
     y = new Audio(`${BACKEND_URL}/v1/audio/${u}`);
-  h.on("play", () => {
+  b.on("play", () => {
     y.play();
   }),
-    h.on("pause", () => {
+    b.on("pause", () => {
       y.pause();
     }),
-    h.on("seek", () => {
-      y.currentTime = h.currentTime;
+    b.on("seek", () => {
+      y.currentTime = b.currentTime;
     }),
-    h.on("video:timeupdate", () => {
-      y.currentTime = h.currentTime;
+    b.on("video:timeupdate", () => {
+      y.currentTime = b.currentTime;
     }),
-    h.on("video:durationchange", () => {
-      y.currentTime = h.currentTime;
+    b.on("video:durationchange", () => {
+      y.currentTime = b.currentTime;
     }),
-    h.on("video:volumechange", () => {
-      y.volume = h.volume;
+    b.on("video:volumechange", () => {
+      y.volume = b.volume;
     }),
-    h.on("fullscreen", () => {
-      h.subtitle.style({ fontSize: "3vw", "margin-bottom": "30px" });
+    b.on("fullscreen", () => {
+      b.subtitle.style({ fontSize: "3vw", "margin-bottom": "30px" });
     }),
-    h.on("fullscreenWeb", () => {
-      h.subtitle.style({ fontSize: "3vw", "margin-bottom": "30px" });
+    b.on("fullscreenWeb", () => {
+      b.subtitle.style({ fontSize: "3vw", "margin-bottom": "30px" });
     }),
     r.addEventListener("click", async (t) => {
       if ("BUTTON" === t.target.tagName) {
-        (h.loading.show = !0), (h.poster = "");
+        (b.loading.show = !0), (b.poster = "");
         const e = t.target.getAttribute("data-episode"),
           n = t.target.getAttribute("data-poster");
         await (async (t, e) => {
           const n = await g(t);
-          (h.poster = `${BACKEND_URL}/image/${e}@720w_405h_1e_1c_90q.webp`),
-            h.switchUrl(`${BACKEND_URL}/v1/video/${t}`),
-            (h.subtitle.url = `${BACKEND_URL}/v1/subtitle/${t}`),
-            (h.subtitle.type = n),
+          (b.poster = `${BACKEND_URL}/image/${e}@720w_405h_1e_1c_90q.webp`),
+            b.switchUrl(`${BACKEND_URL}/v1/video/${t}`),
+            (b.subtitle.url = `${BACKEND_URL}/v1/subtitle/${t}`),
+            (b.subtitle.type = n),
             console.log(e),
             (y.src = `${BACKEND_URL}/v1/audio/${t}`),
             y.load();
         })(e, n),
-          (h.loading.show = !1);
+          (b.loading.show = !1);
       }
     });
 });
