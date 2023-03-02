@@ -4,7 +4,7 @@
     <title>WibuTV - Anime Index</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-
+    <link rel="shortcut icon" href="/favicon.ico" />
     <link rel="stylesheet" href="/assets/css/bootstrap.css" />
     <link rel="stylesheet" href="/assets/css/style.css" />
     <link
@@ -12,6 +12,7 @@
       href="https://site-assets.fontawesome.com/releases/v6.2.0/css/all.css"
     />
     <link rel="stylesheet" href="/assets/css/pagination.css" />
+
     <script>
       const BACKEND_URL = "https://backend.heusc.space";
     </script>
@@ -224,30 +225,36 @@
     <script src="/assets/js/loader-index.js"></script>
     <script>
       $(function () {
-        render("rekomendasi_anime", "rekomendasi"),
-          render("anime_terbaru", "terbaru", "@720w_405h_1e_1c_90q.webp"),
-          renderPaginated("index_anime", "index");
+        render("rekomendasi_anime", "rekomendasi");
+        render("anime_terbaru", "terbaru", "@720w_405h_1e_1c_90q.webp");
+        renderPaginated("index_anime", "index");
       });
 
+      // get all the anime card links
       const animeLinks = document.querySelectorAll("#index_anime a");
-      function loadDetailPage(e) {
-        fetchAnimeDetail(e)
-          .then((e) => {
-            renderAnimeDetail(e);
-          })
-          .catch((e) => {
-            console.error(e);
-          });
-      }
-      animeLinks.forEach((e) => {
-        e.addEventListener("click", (n) => {
-          n.preventDefault();
-          const a = e.dataset.animeId,
-            i = { animeId: a },
-            t = `AniPi - ${e.dataset.animeTitle}`;
-          window.history.pushState(i, t, `/view/${a}`), loadDetailPage(a);
+
+      // add click event listener to each link
+      animeLinks.forEach((link) => {
+        link.addEventListener("click", (event) => {
+          event.preventDefault(); // prevent the link from navigating to a new page
+          const animeId = link.dataset.animeId; // get the anime ID from the link dataset
+          const animeTitle = link.dataset.animeTitle; // get the anime title from the link dataset
+          const stateObj = { animeId: animeId }; // create the state object with the anime ID
+          const pageTitle = `AniPi - ${animeTitle}`; // create the page title with the anime title
+          window.history.pushState(stateObj, pageTitle, `/view/${animeId}`); // change the URL and load the detail page
+          loadDetailPage(animeId); // call the function to load the detail page
         });
       });
+
+      function loadDetailPage(animeId) {
+        fetchAnimeDetail(animeId)
+          .then((animeDetail) => {
+            renderAnimeDetail(animeDetail);
+          })
+          .catch((error) => {
+            console.error(error);
+          });
+      }
     </script>
   </body>
 </html>
