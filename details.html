@@ -4,7 +4,7 @@
     <title>Video Player and Search Example</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-
+    <link rel="shortcut icon" href="/favicon.ico" />
     <link rel="stylesheet" href="/assets/css/bootstrap.css" />
     <link rel="stylesheet" href="/assets/css/style.css" />
     <link
@@ -102,16 +102,16 @@
     <script src="/assets/js/details.js"></script>
     <script>
       const container = document.querySelector("#anime_detail");
-      container.addEventListener("click", (t) => {
-        const e = t.target;
-        if (e.classList.contains("show-more")) {
-          const t = container.querySelector(".text-truncate"),
-            n = container.querySelector(".more-content");
-          t.classList.toggle("show-more"),
-            n.classList.toggle("text-truncate"),
-            (e.textContent = t.classList.contains("show-more")
-              ? "Sembunyikan"
-              : "Selengkapnya");
+      container.addEventListener("click", (event) => {
+        const target = event.target;
+        if (target.classList.contains("show-more")) {
+          const description = container.querySelector(".text-truncate");
+          const moreContent = container.querySelector(".more-content");
+          description.classList.toggle("show-more");
+          moreContent.classList.toggle("text-truncate");
+          target.textContent = description.classList.contains("show-more")
+            ? "Sembunyikan"
+            : "Selengkapnya";
         }
       });
     </script>
