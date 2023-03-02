@@ -85,6 +85,18 @@ a {
   color: #252529 !important;
 }
 
+.light-mode h6 {
+  color: #252529 !important;
+}
+
+.light-mode .show-more {
+  color: #252529 !important;
+}
+
+.light-mode small {
+  color: #4c4cc8 !important;
+}
+
 .theme-switch-wrapper {
   display: flex;
   align-items: center;
