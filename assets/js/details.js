@@ -205,7 +205,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     type: "m4s",
     poster: `${BACKEND_URL}/image/${defaultPoster}@720w_405h_1e_1c_90q.webp`,
     title: json_data.data.title,
-    fullscreen: playerQuality === "360P" ? false : true,
+    fullscreen: true,
     fullscreenWeb: true,
     miniProgressBar: true,
     mutex: true,
