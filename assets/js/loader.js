@@ -1,76 +1,110 @@
-function render(e, t, n = "@405w_645h_1e_1c_90q.webp") {
-  const a = document.querySelector(`#${e}`);
-  let c;
-  function i() {
-    ((c = document.createElement("div")).className = "col mx-auto text-center"),
-      (c.innerHTML =
-        '\n        <div class="spinner-border" role="status">\n          <span class="visually-hidden">Loading...</span>\n        </div>\n      '),
-      a.appendChild(c);
+function render(elementId, endpoint, imageType = "@405w_645h_1e_1c_90q.webp") {
+  const animeListContainer = document.querySelector(`#${elementId}`);
+  let loaderElement;
+
+  function showLoader() {
+    loaderElement = document.createElement("div");
+    loaderElement.className = "col mx-auto text-center";
+    loaderElement.innerHTML = `
+        <div class="spinner-border" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+      `;
+    animeListContainer.appendChild(loaderElement);
   }
-  function l() {
-    c && c.remove();
+
+  function hideLoader() {
+    if (loaderElement) {
+      loaderElement.remove();
+    }
   }
-  i(),
-    (async function e() {
-      try {
-        const c = await fetch(`${BACKEND_URL}/v1/${t}`),
-          s = await c.json();
-        l();
-        const o = s.items.map((e) => {
-          const t = document.createElement("div");
-          t.className = "col";
-          const c = document.createElement("a");
-          (c.href = `/details.html?id=${e.season_id}`),
-            (c.className = "card h-100 d-flex");
-          const i = document.createElement("div");
-          i.className = "position-relative";
-          const l = document.createElement("img");
-          (l.src = `${BACKEND_URL}/image/${e.cover}${n}`),
-            (l.className = "card-img-top"),
-            (l.alt = e.title),
-            (l.title = e.title),
-            (l.loading = "lazy"),
-            (l.style.cssText =
-              "height: 100%; width: 100%; object-fit: cover; transition: opacity 0.2s ease-in-out;");
-          const s = document.createElement("div");
-          s.className = "position-absolute top-0 end-0 m-0";
-          const o = document.createElement("div");
-          (o.className = "badge rounded-pill bg-primary"),
-            (o.style.transform = "scale(0.8)"),
-            (o.innerText = e.subtitle);
-          const d = document.createElement("div");
-          d.className = "text-box";
-          const r = document.createElement("p");
-          (r.className = "title"), (r.title = e.title), (r.innerText = e.title);
-          const m = document.createElement("p");
-          return (
-            (m.className = "hot-update-info"),
-            (m.innerText = e.tag.text),
-            a.appendChild(t),
-            t.appendChild(c),
-            c.appendChild(i),
-            i.appendChild(l),
-            i.appendChild(s),
-            s.appendChild(o),
-            c.appendChild(d),
-            d.appendChild(r),
-            d.appendChild(m),
-            t
-          );
-        });
-        (a.innerHTML = ""), a.append(...o);
-      } catch (t) {
-        l(),
-          (function (t) {
-            const n = document.createElement("div");
-            (n.className = "col mx-auto text-center"),
-              (n.innerHTML =
-                '\n        <button type="button" class="btn btn-primary btn-reload">\n          <i class="fas fa-redo"></i> Click to reload.\n        </button>\n      '),
-              a.appendChild(n),
-              n.querySelector(".btn-reload").addEventListener("click", () => {
-                (a.innerHTML = ""), i(), e();
-              });
-          })();
-      }
-    })();
+
+  function showError(message) {
+    const errorElement = document.createElement("div");
+    errorElement.className = "col mx-auto text-center";
+    errorElement.innerHTML = `
+        <button type="button" class="btn btn-primary btn-reload">
+          <i class="fas fa-redo"></i> ${message}
+        </button>
+      `;
+    animeListContainer.appendChild(errorElement);
+
+    const reloadButton = errorElement.querySelector(".btn-reload");
+    reloadButton.addEventListener("click", () => {
+      animeListContainer.innerHTML = "";
+      showLoader();
+      fetchAnimeList();
+    });
+  }
+
+  async function fetchAnimeList() {
+    try {
+      const response = await fetch(`${BACKEND_URL}/v1/${endpoint}`);
+      const data = await response.json();
+      hideLoader();
+
+      const animeList = data.items.map((item) => {
+        const animeItem = document.createElement("div");
+        animeItem.className = "col";
+
+        const animeLink = document.createElement("a");
+        animeLink.href = `/details.html?id=${item.season_id}`;
+        animeLink.className = "card h-100 d-flex";
+
+        const animeImageContainer = document.createElement("div");
+        animeImageContainer.className = "position-relative";
+
+        const animeImage = document.createElement("img");
+        animeImage.src = `${BACKEND_URL}/image/${item.cover}${imageType}`;
+        animeImage.className = "card-img-top";
+        animeImage.alt = item.title;
+        animeImage.title = item.title;
+        animeImage.loading = "lazy";
+        animeImage.style.cssText =
+          "height: 100%; width: 100%; object-fit: cover; transition: opacity 0.2s ease-in-out;";
+
+        const animeBadgeContainer = document.createElement("div");
+        animeBadgeContainer.className = "position-absolute top-0 end-0 m-0";
+
+        const animeBadge = document.createElement("div");
+        animeBadge.className = "badge rounded-pill bg-primary";
+        animeBadge.style.transform = "scale(0.8)";
+        animeBadge.innerText = item.subtitle;
+
+        const animeTextBox = document.createElement("div");
+        animeTextBox.className = "text-box";
+
+        const animeTitle = document.createElement("p");
+        animeTitle.className = "title";
+        animeTitle.title = item.title;
+        animeTitle.innerText = item.title;
+
+        const animeHotUpdateInfo = document.createElement("p");
+        animeHotUpdateInfo.className = "hot-update-info";
+        animeHotUpdateInfo.innerText = item.tag.text;
+
+        animeListContainer.appendChild(animeItem);
+        animeItem.appendChild(animeLink);
+        animeLink.appendChild(animeImageContainer);
+        animeImageContainer.appendChild(animeImage);
+        animeImageContainer.appendChild(animeBadgeContainer);
+        animeBadgeContainer.appendChild(animeBadge);
+        animeLink.appendChild(animeTextBox);
+        animeTextBox.appendChild(animeTitle);
+        animeTextBox.appendChild(animeHotUpdateInfo);
+
+        return animeItem;
+      });
+
+      animeListContainer.innerHTML = "";
+      animeListContainer.append(...animeList);
+    } catch (error) {
+      // console.error(`Failed to fetch anime list from ${endpoint}`, error);
+      hideLoader();
+      showError(`Click to reload.`);
+    }
+  }
+
+  showLoader();
+  fetchAnimeList();
 }

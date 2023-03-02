@@ -1,105 +1,155 @@
-function renderPaginated(e, t, n = 1) {
-  const a = document.querySelector(`#${e}`);
-  let c;
-  function i() {
-    ((c = document.createElement("div")).className = "col mx-auto text-center"),
-      (c.innerHTML =
-        '\n      <div class="spinner-border" role="status">\n        <span class="visually-hidden">Loading...</span>\n      </div>\n    '),
-      a.appendChild(c);
+function renderPaginated(elementId, endpoint, page = 1) {
+  const animeListContainer = document.querySelector(`#${elementId}`);
+  let loaderElement;
+
+  function showLoader() {
+    loaderElement = document.createElement("div");
+    loaderElement.className = "col mx-auto text-center";
+    loaderElement.innerHTML = `
+      <div class="spinner-border" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    `;
+    animeListContainer.appendChild(loaderElement);
   }
-  function o() {
-    c && c.remove();
-  }
-  async function d() {
-    try {
-      const c = await fetch(`${BACKEND_URL}/v1/season/${t}/${n}`),
-        s = await c.json();
-      o();
-      const l = s.list.map((e) => {
-        const t = document.createElement("div");
-        t.className = "col";
-        const n = document.createElement("a");
-        (n.href = `/details.html?id=${e.season_id}`),
-          (n.className = "card h-100 d-flex");
-        const c = document.createElement("div");
-        c.className = "position-relative";
-        const i = document.createElement("img");
-        (i.src = `${BACKEND_URL}/image/${e.cover}@720w_405h_1e_1c_90q.webp`),
-          (i.className = "card-img-top"),
-          (i.alt = e.title),
-          (i.title = e.title),
-          (i.loading = "lazy"),
-          (i.style.cssText =
-            "height: 100%; width: 100%; object-fit: cover; transition: opacity 0.2s ease-in-out;");
-        const o = document.createElement("div");
-        o.className = "position-absolute top-0 end-0 m-0";
-        const d = document.createElement("div");
-        (d.className = "badge rounded-pill bg-primary"),
-          (d.style.transform = "scale(0.8)"),
-          (d.innerText = e.index_show);
-        const s = document.createElement("div");
-        s.className = "text-box";
-        const l = document.createElement("p");
-        (l.className = "title"), (l.title = e.title), (l.innerText = e.title);
-        const r = document.createElement("p");
-        return (
-          (r.className = "hot-update-info"),
-          (r.innerText = e.order_type),
-          a.appendChild(t),
-          t.appendChild(n),
-          n.appendChild(c),
-          c.appendChild(i),
-          c.appendChild(o),
-          o.appendChild(d),
-          n.appendChild(s),
-          s.appendChild(l),
-          s.appendChild(r),
-          t
-        );
-      });
-      (a.innerHTML = ""), a.append(...l);
-      const r = document.createElement("div");
-      if (((r.className = "col mx-auto text-center mt-3"), n > 1)) {
-        const c = document.createElement("button");
-        (c.type = "button"),
-          (c.className = "btn btn-primary btn-pagination btn-sm me-2"),
-          (c.innerText = "Prev"),
-          c.addEventListener("click", () => {
-            (a.innerHTML = ""), renderPaginated(e, t, n - 1);
-          }),
-          r.appendChild(c);
-      }
-      if (s.has_next) {
-        const c = document.createElement("button");
-        (c.type = "button"),
-          (c.className = "btn btn-primary btn-pagination btn-sm ms-2"),
-          (c.innerText = "Next"),
-          c.addEventListener("click", () => {
-            (a.innerHTML = ""), renderPaginated(e, t, n + 1);
-          }),
-          r.appendChild(c);
-      } else {
-        const e = document.createElement("p");
-        (e.className = "text-muted"),
-          (e.innerText = "No more data"),
-          r.appendChild(e);
-      }
-      const m = document.querySelector("#index_pagination");
-      (m.innerHTML = ""), m.appendChild(r);
-    } catch (e) {
-      o(),
-        (function (e) {
-          const t = document.createElement("div");
-          (t.className = "row mt-3 ps-2 pe-2"),
-            (t.innerHTML = `\n      <div class="col mx-auto text-center">\n        <button type="button" class="btn btn-primary btn-reload btn-sm">\n          <i class="fas fa-redo"></i> ${e}\n        </button>\n      </div>\n    `);
-          const n = document.querySelector("#reload_container");
-          (n.innerHTML = ""),
-            n.appendChild(t),
-            t.querySelector(".btn-reload").addEventListener("click", () => {
-              (a.innerHTML = ""), i(), d();
-            });
-        })("Click to reload.");
+
+  function hideLoader() {
+    if (loaderElement) {
+      loaderElement.remove();
     }
   }
-  i(), d();
+
+  function showError(message) {
+    const errorElement = document.createElement("div");
+    errorElement.className = "row mt-3 ps-2 pe-2";
+    errorElement.innerHTML = `
+      <div class="col mx-auto text-center">
+        <button type="button" class="btn btn-primary btn-reload btn-sm">
+          <i class="fas fa-redo"></i> ${message}
+        </button>
+      </div>
+    `;
+    const reloadContainer = document.querySelector("#reload_container");
+    reloadContainer.innerHTML = "";
+    reloadContainer.appendChild(errorElement);
+
+    const reloadButton = errorElement.querySelector(".btn-reload");
+    reloadButton.addEventListener("click", () => {
+      animeListContainer.innerHTML = "";
+      showLoader();
+      fetchAnimeList();
+    });
+  }
+
+  async function fetchAnimeList() {
+    try {
+      const response = await fetch(
+        `${BACKEND_URL}/v1/season/${endpoint}/${page}`
+      );
+      const data = await response.json();
+      hideLoader();
+
+      const animeList = data.list.map((item) => {
+        const animeItem = document.createElement("div");
+        animeItem.className = "col";
+
+        const animeLink = document.createElement("a");
+        animeLink.href = `/details.html?id=${item.season_id}`;
+        animeLink.className = "card h-100 d-flex";
+
+        const animeImageContainer = document.createElement("div");
+        animeImageContainer.className = "position-relative";
+
+        const animeImage = document.createElement("img");
+        animeImage.src = `${BACKEND_URL}/image/${item.cover}@720w_405h_1e_1c_90q.webp`;
+        animeImage.className = "card-img-top";
+        animeImage.alt = item.title;
+        animeImage.title = item.title;
+        animeImage.loading = "lazy";
+        animeImage.style.cssText =
+          "height: 100%; width: 100%; object-fit: cover; transition: opacity 0.2s ease-in-out;";
+
+        const animeBadgeContainer = document.createElement("div");
+        animeBadgeContainer.className = "position-absolute top-0 end-0 m-0";
+
+        const animeBadge = document.createElement("div");
+        animeBadge.className = "badge rounded-pill bg-primary";
+        animeBadge.style.transform = "scale(0.8)";
+        animeBadge.innerText = item.index_show;
+
+        const animeTextBox = document.createElement("div");
+        animeTextBox.className = "text-box";
+
+        const animeTitle = document.createElement("p");
+        animeTitle.className = "title";
+        animeTitle.title = item.title;
+        animeTitle.innerText = item.title;
+
+        const animeHotUpdateInfo = document.createElement("p");
+        animeHotUpdateInfo.className = "hot-update-info";
+        animeHotUpdateInfo.innerText = item.order_type;
+
+        animeListContainer.appendChild(animeItem);
+        animeItem.appendChild(animeLink);
+        animeLink.appendChild(animeImageContainer);
+        animeImageContainer.appendChild(animeImage);
+        animeImageContainer.appendChild(animeBadgeContainer);
+        animeBadgeContainer.appendChild(animeBadge);
+        animeLink.appendChild(animeTextBox);
+        animeTextBox.appendChild(animeTitle);
+        animeTextBox.appendChild(animeHotUpdateInfo);
+
+        return animeItem;
+      });
+
+      animeListContainer.innerHTML = "";
+      animeListContainer.append(...animeList);
+
+      // Add pagination buttons
+      const paginationElement = document.createElement("div");
+      paginationElement.className = "col mx-auto text-center mt-3";
+
+      if (page > 1) {
+        const prevButton = document.createElement("button");
+        prevButton.type = "button";
+        prevButton.className = "btn btn-primary btn-pagination btn-sm me-2";
+        prevButton.innerText = "Prev";
+        prevButton.addEventListener("click", () => {
+          animeListContainer.innerHTML = "";
+          //showLoader();
+          renderPaginated(elementId, endpoint, page - 1);
+        });
+        paginationElement.appendChild(prevButton);
+      }
+
+      if (data.has_next) {
+        const nextButton = document.createElement("button");
+        nextButton.type = "button";
+        nextButton.className = "btn btn-primary btn-pagination btn-sm ms-2";
+        nextButton.innerText = "Next";
+        nextButton.addEventListener("click", () => {
+          animeListContainer.innerHTML = "";
+          //showLoader();
+          renderPaginated(elementId, endpoint, page + 1);
+        });
+        paginationElement.appendChild(nextButton);
+      } else {
+        const endMessage = document.createElement("p");
+        endMessage.className = "text-muted";
+        endMessage.innerText = "No more data";
+        paginationElement.appendChild(endMessage);
+      }
+
+      const indexPaginationElement =
+        document.querySelector("#index_pagination");
+      indexPaginationElement.innerHTML = "";
+      indexPaginationElement.appendChild(paginationElement);
+    } catch (error) {
+      //console.error(`Failed to fetch anime list from ${endpoint}`, error);
+      hideLoader();
+      showError(`Click to reload.`);
+    }
+  }
+  showLoader();
+  fetchAnimeList();
 }
