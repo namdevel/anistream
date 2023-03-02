@@ -289,25 +289,37 @@ document.addEventListener("DOMContentLoaded", async function () {
   });
 
   player.on("play", () => {
-    audio.play();
+    if (playerQuality !== "360P") {
+      audio.play();
+    }
   });
   player.on("pause", () => {
-    audio.pause();
+    if (playerQuality !== "360P") {
+      audio.pause();
+    }
   });
   player.on("seek", () => {
-    audio.currentTime = player.currentTime;
+    if (playerQuality !== "360P") {
+      audio.currentTime = player.currentTime;
+    }
   });
 
   player.on("video:timeupdate", () => {
-    audio.currentTime = player.currentTime;
+    if (playerQuality !== "360P") {
+      audio.currentTime = player.currentTime;
+    }
   });
 
   player.on("video:durationchange", () => {
-    audio.currentTime = player.currentTime;
+    if (playerQuality !== "360P") {
+      audio.currentTime = player.currentTime;
+    }
   });
 
   player.on("video:volumechange", () => {
-    audio.volume = player.volume;
+    if (playerQuality !== "360P") {
+      audio.volume = player.volume;
+    }
   });
 
   player.on("fullscreen", () => {
