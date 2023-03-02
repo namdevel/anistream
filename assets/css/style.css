@@ -72,3 +72,7 @@ a {
     width: 33.3%;
   }
 }
+
+.light-mode {
+  background-color: #f5f5f5 !important;
+}
