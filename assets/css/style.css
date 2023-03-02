@@ -76,3 +76,11 @@ a {
 .light-mode {
   background-color: #f5f5f5 !important;
 }
+
+.light-mode .col-md-18 {
+  background-color: #f5f5f5 !important;
+}
+
+.light-mode .text-box .title {
+  color: #252529 !important;
+}
