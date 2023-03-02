@@ -205,7 +205,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     type: "m4s",
     poster: `${BACKEND_URL}/image/${defaultPoster}@720w_405h_1e_1c_90q.webp`,
     title: json_data.data.title,
-    fullscreen: true,
+    fullscreen: playerQuality === "360P" ? false : true,
     fullscreenWeb: true,
     miniProgressBar: true,
     mutex: true,
@@ -285,6 +285,36 @@ document.addEventListener("DOMContentLoaded", async function () {
   player.on("video:loadeddata", () => {
     const audioURL = player.url.replace("video", "audio");
     playerQuality = getQuality(player.url);
+    if (playerQuality == "360P") {
+      const fullscreenControlX = document.querySelector(
+        ".art-control-fullscreen"
+      );
+
+      if (fullscreenControlX) {
+        var fullscreenControl = document.querySelector(
+          ".art-control-fullscreen"
+        );
+        fullscreenControl.style.display = "none";
+      } else {
+        const artControlsRight = document.querySelector(".art-controls-right");
+        const fullscreenControl = document.createElement("div");
+        fullscreenControl.classList.add(
+          "art-control",
+          "art-control-fullscreen",
+          "hint--rounded",
+          "hint--top"
+        );
+        fullscreenControl.setAttribute("data-index", "70");
+        fullscreenControl.setAttribute("aria-label", "Fullscreen");
+        fullscreenControl.setAttribute("style", "display: none;");
+        fullscreenControl.innerHTML =
+          '<i class="art-icon art-icon-fullscreenOn" style="display: inline-flex;"><svg class="icon" width="22" height="22" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg"><path fill="#fff" d="M625.778 256H768v142.222h113.778v-256h-256V256zM256 398.222V256h142.222V142.222h-256v256H256zm512 227.556V768H625.778v113.778h256v-256H768zM398.222 768H256V625.778H142.222v256h256V768z"></path></svg></i><i class="art-icon art-icon-fullscreenOff" style="display: none;"><svg class="icon" width="22" height="22" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg"><path fill="#fff" d="M768 298.667h170.667V384h-256V128H768v170.667zM341.333 384h-256v-85.333H256V128h85.333v256zM768 725.333V896h-85.333V640h256v85.333H768zM341.333 640v256H256V725.333H85.333V640h256z"></path></svg></i>';
+        artControlsRight.appendChild(fullscreenControl);
+      }
+    } else {
+      var fullscreenControl = document.querySelector(".art-control-fullscreen");
+      fullscreenControl.style.display = "block";
+    }
     audio.src = audioURL;
   });
 
