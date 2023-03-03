@@ -61,33 +61,19 @@ function renderPaginated(elementId, endpoint, page = 1) {
         const animeImageContainer = document.createElement("div");
         animeImageContainer.className = "position-relative";
 
-        const MAX_RETRIES = 3; // Maximum number of retries
-        let retries = 0; // Number of retries so far
-
-        const loadImage = () => {
-            const animeImage = document.createElement("img");
-            animeImage.src = `${BACKEND_URL}/image/${item.cover}@720w_405h_1e_1c_90q.webp`;
-            animeImage.className = "card-img-top";
-            animeImage.alt = item.title;
-            animeImage.title = item.title;
-            animeImage.loading = "lazy";
-animeImage.style.cssText =
+        const animeImage = document.createElement("img");
+        animeImage.src = `${BACKEND_URL}/image/${item.cover}@720w_405h_1e_1c_90q.webp`;
+        animeImage.className = "card-img-top";
+        animeImage.alt = item.title;
+        animeImage.title = item.title;
+        animeImage.loading = "lazy";
+        animeImage.onerror = function () {
+          this.onerror = null;
+          this.src = `${BASE_URL}/assets/img/logo.png`;
+        };
+        animeImage.style.cssText =
           "height: 100%; width: 100%; object-fit: cover; transition: opacity 0.2s ease-in-out;";
 
-            animeImage.onerror = function () {
-                if (retries < MAX_RETRIES) {
-                    // Retry loading the image
-                    retries++;
-                    loadImage();
-                } else {
-                    // All retries failed, set a fallback image
-                    this.onerror = null;
-                    this.src = `${BASE_URL}/assets/img/logo.png`;
-                }
-            };
-        };
-
-        loadImage();
         
         const animeBadgeContainer = document.createElement("div");
         animeBadgeContainer.className = "position-absolute top-0 end-0 m-0";
