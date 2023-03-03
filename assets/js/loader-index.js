@@ -1,4 +1,5 @@
 function renderPaginated(elementId, endpoint, page = 1) {
+  const BASE_URL = window.location.origin;
   const animeListContainer = document.querySelector(`#${elementId}`);
   let loaderElement;
 
@@ -66,6 +67,10 @@ function renderPaginated(elementId, endpoint, page = 1) {
         animeImage.alt = item.title;
         animeImage.title = item.title;
         animeImage.loading = "lazy";
+        animeImage.onerror = function () {
+          this.onerror = null;
+          this.src = `${BASE_URL}/assets/img/logo.png`;
+        };
         animeImage.style.cssText =
           "height: 100%; width: 100%; object-fit: cover; transition: opacity 0.2s ease-in-out;";
 
