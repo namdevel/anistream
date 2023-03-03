@@ -1,5 +1,4 @@
 function render(elementId, endpoint, imageType = "@405w_645h_1e_1c_90q.webp") {
-  const BASE_URL = window.location.origin;
   const animeListContainer = document.querySelector(`#${elementId}`);
   let loaderElement;
 
@@ -55,31 +54,12 @@ function render(elementId, endpoint, imageType = "@405w_645h_1e_1c_90q.webp") {
         const animeImageContainer = document.createElement("div");
         animeImageContainer.className = "position-relative";
 
-        const MAX_RETRIES = 3; // Maximum number of retries
-        let retries = 0; // Number of retries so far
-
-        const loadImage = () => {
-            const animeImage = document.createElement("img");
-            animeImage.src = `${BACKEND_URL}/image/${item.cover}@720w_405h_1e_1c_90q.webp`;
-            animeImage.className = "card-img-top";
-            animeImage.alt = item.title;
-            animeImage.title = item.title;
-            animeImage.loading = "lazy";
-            animeImage.onerror = function () {
-                if (retries < MAX_RETRIES) {
-                    // Retry loading the image
-                    retries++;
-                    loadImage();
-                } else {
-                    // All retries failed, set a fallback image
-                    this.onerror = null;
-                    this.src = `${BASE_URL}/assets/img/logo.png`;
-                }
-            };
-        };
-
-        // Start loading the image
-        loadImage();
+        const animeImage = document.createElement("img");
+        animeImage.src = `${BACKEND_URL}/image/${item.cover}${imageType}`;
+        animeImage.className = "card-img-top";
+        animeImage.alt = item.title;
+        animeImage.title = item.title;
+        animeImage.loading = "lazy";
         animeImage.style.cssText =
           "height: 100%; width: 100%; object-fit: cover; transition: opacity 0.2s ease-in-out;";
 
