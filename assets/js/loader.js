@@ -65,6 +65,9 @@ function render(elementId, endpoint, imageType = "@405w_645h_1e_1c_90q.webp") {
             animeImage.alt = item.title;
             animeImage.title = item.title;
             animeImage.loading = "lazy";
+animeImage.style.cssText =
+          "height: 100%; width: 100%; object-fit: cover; transition: opacity 0.2s ease-in-out;";
+
             animeImage.onerror = function () {
                 if (retries < MAX_RETRIES) {
                     // Retry loading the image
@@ -76,13 +79,12 @@ function render(elementId, endpoint, imageType = "@405w_645h_1e_1c_90q.webp") {
                     this.src = `${BASE_URL}/assets/img/logo.png`;
                 }
             };
+
         };
 
         // Start loading the image
         loadImage();
-        animeImage.style.cssText =
-          "height: 100%; width: 100%; object-fit: cover; transition: opacity 0.2s ease-in-out;";
-
+        
         const animeBadgeContainer = document.createElement("div");
         animeBadgeContainer.className = "position-absolute top-0 end-0 m-0";
 
