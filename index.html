@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>WibuTV - Anime Index</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="stylesheet" href="/assets/css/bootstrap.css" />
+    <link rel="stylesheet" href="/assets/css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://site-assets.fontawesome.com/releases/v6.2.0/css/all.css"
+    />
+    <link rel="stylesheet" href="/assets/css/pagination.css" />
+
+    <script>
+      const BACKEND_URL = "https://backend.heusc.space";
+    </script>
+  </head>
+
+  <body>
+    <div class="container ps-0 pe-0">
+      <div class="col-md-12 col-md-18 mx-auto" style="max-width: 600px">
+        <div class="row">
+          <div class="col">
+            <div class="banner">
+              <img
+                src="https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/fc612687613367.5dfd308bad94d.png"
+                style="opacity: 0.7"
+                class="img-fluid"
+                alt="Banner"
+              />
+              <div
+                class="position-absolute top-50 start-50 translate-middle text-center"
+              >
+                <h1
+                  class="text-light"
+                  style="
+                    text-shadow: -4px -4px 0 #f94622, 1px -1px 0 #f94622,
+                      -4px 4px 0 #f94622, 1px 1px 0 #f94622;
+                  "
+                >
+                  NGEWIBU TV
+                  <label class="theme-switch" for="checkbox">
+                    <input type="checkbox" id="checkbox" onclick="switchLight()" />
+                    <div class="slider round"></div>
+                  </label>
+                </h1>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row mt-3 ps-3 pe-3 mb-3">
+          <div class="col">
+            <form id="search-form" class="d-flex">
+              <input
+                id="search-input"
+                class="form-control form-control-sm me-1"
+                type="search"
+                placeholder="Cari anime"
+                aria-label="Cari anime"
+              />
+              <button
+                id="search-button"
+                class="btn btn-primary btn-sm"
+                type="submit"
+              >
+                Cari
+              </button>
+            </form>
+          </div>
+        </div>
+
+        <div class="row mt-3 ps-3 pe-3" id="spinner" style="display: none">
+          <div class="col mx-auto text-center">
+            <div class="spinner-border" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+          </div>
+        </div>
+        <div class="row mt-3 ps-3 pe-3" id="alert" style="display: none">
+          <div class="alert alert-danger mt-3" role="alert">
+            No results found.
+          </div>
+        </div>
+        <div
+          id="hasil"
+          class="row ps-3 pe-3 table-responsive"
+          style="display: none"
+        >
+          <table id="search-results" class="table table-dark table-striped">
+            <tbody></tbody>
+          </table>
+          <nav
+            aria-label="Page navigation"
+            class="d-flex justify-content-center bg-dark"
+          >
+            <ul
+              class="pagination pagination-sm mb-0 pb-2 pt-2"
+              id="pagination"
+            ></ul>
+          </nav>
+        </div>
+        <hr />
+        <div class="row ps-3 pe-3">
+          <div class="col">
+            <h3
+              class="mb-3 mt-1 ps-3 pe-3"
+              style="
+                font-size: 18px;
+                font-weight: 600;
+                color: #fff;
+                background-color: #181818;
+                padding: 5px;
+                border-radius: 6px;
+                display: inline-block;
+                position: relative;
+              "
+            >
+              Rekomendasi Anime<span
+                style="
+                  background-color: #00dc5a;
+                  position: absolute;
+                  left: 0;
+                  top: 50%;
+                  transform: translateY(-50%);
+                  width: 3px;
+                  height: 20px;
+                "
+              ></span>
+            </h3>
+          </div>
+        </div>
+
+        <div
+          id="rekomendasi_anime"
+          class="row row-cols-1 row-cols-md-6 gx-2 gy-4 ps-3 pe-3"
+        ></div>
+        <hr />
+        <div class="row ps-3 pe-3">
+          <div class="col">
+            <h3
+              class="mb-3 mt-1 ps-3 pe-3"
+              style="
+                font-size: 18px;
+                font-weight: 600;
+                color: #fff;
+                background-color: #181818;
+                padding: 5px;
+                border-radius: 6px;
+                display: inline-block;
+                position: relative;
+              "
+            >
+              Baru Di Update<span
+                style="
+                  background-color: #00dc5a;
+                  position: absolute;
+                  left: 0;
+                  top: 50%;
+                  transform: translateY(-50%);
+                  width: 3px;
+                  height: 20px;
+                "
+              ></span>
+            </h3>
+          </div>
+        </div>
+
+        <div
+          id="anime_terbaru"
+          class="row row-cols-1 row-cols-md-3 gx-2 gy-4 ps-3 pe-3"
+        ></div>
+
+        <hr />
+        <div class="row ps-3 pe-3">
+          <div class="col">
+            <h3
+              class="mb-3 mt-1 ps-3 pe-3"
+              style="
+                font-size: 18px;
+                font-weight: 600;
+                color: #fff;
+                background-color: #181818;
+                padding: 5px;
+                border-radius: 6px;
+                display: inline-block;
+                position: relative;
+              "
+            >
+              Index Anime<span
+                style="
+                  background-color: #00dc5a;
+                  position: absolute;
+                  left: 0;
+                  top: 50%;
+                  transform: translateY(-50%);
+                  width: 3px;
+                  height: 20px;
+                "
+              ></span>
+            </h3>
+          </div>
+        </div>
+
+        <div
+          id="index_anime"
+          class="row row-cols-1 row-cols-md-3 gx-2 gy-4 ps-3 pe-3"
+        ></div>
+        <div id="reload_container" class="row ps-3 pe-3"></div>
+        <div id="index_pagination" class="row ps-3 pe-3 mt-3"></div>
+        <hr />
+        <footer class="container col-md-12 mx-auto mt-4">
+          <p class="text-center mb-0">
+            Made with a cup of
+            <i class="fa-duotone fa-mug-hot ms-2 me-2 text-green fa-shake"></i>
+            by NAMDEVEL
+          </p>
+          <br />
+        </footer>
+      </div>
+    </div>
+
+    <script src="/assets/js/jquery.js"></script>
+    <script type="text/javascript" src="/assets/js/pagination.js"></script>
+    <script src="/assets/js/search.js"></script>
+    <script src="/assets/js/loader.js"></script>
+    <script src="/assets/js/loader-index.js"></script>
+    <script src="/assets/js/light.js"></script>
+    <script>
+      $(function () {
+        render("rekomendasi_anime", "rekomendasi");
+        render("anime_terbaru", "terbaru", "@720w_405h_1e_1c_90q.webp");
+        renderPaginated("index_anime", "index");
+      });
+
+      // get all the anime card links
+      const animeLinks = document.querySelectorAll("#index_anime a");
+
+      // add click event listener to each link
+      animeLinks.forEach((link) => {
+        link.addEventListener("click", (event) => {
+          event.preventDefault(); // prevent the link from navigating to a new page
+          const animeId = link.dataset.animeId; // get the anime ID from the link dataset
+          const animeTitle = link.dataset.animeTitle; // get the anime title from the link dataset
+          const stateObj = { animeId: animeId }; // create the state object with the anime ID
+          const pageTitle = `AniPi - ${animeTitle}`; // create the page title with the anime title
+          window.history.pushState(stateObj, pageTitle, `/view/${animeId}`); // change the URL and load the detail page
+          loadDetailPage(animeId); // call the function to load the detail page
+        });
+      });
+
+      function loadDetailPage(animeId) {
+        fetchAnimeDetail(animeId)
+          .then((animeDetail) => {
+            renderAnimeDetail(animeDetail);
+          })
+          .catch((error) => {
+            console.error(error);
+          });
+      }
+    </script>
+  </body>
+</html>
