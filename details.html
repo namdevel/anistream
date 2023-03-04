@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Video Player and Search Example</title>
+    <title>WibuTV</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="shortcut icon" href="/favicon.ico" />
-    <link rel="stylesheet" href="/assets/css/bootstrap.css" />
+    <link id="data-theme" rel="stylesheet" href="/assets/css/light.css" />
     <link rel="stylesheet" href="/assets/css/style.css" />
     <link
       rel="stylesheet"
@@ -28,7 +28,7 @@
     </style>
     <script src="https://cdn.jsdelivr.net/npm/artplayer/dist/artplayer.js"></script>
     <script>
-      const BACKEND_URL = "https://backend.heusc.space";
+      const BACKEND_URL = "https://slc-origin-www-wibuapi.nam.icu";
     </script>
     <style>
       .artplayer-app {
@@ -50,10 +50,6 @@
           >
             Back To Home
           </a>
-          <label class="theme-switch" for="checkbox">
-            <input type="checkbox" id="checkbox" onclick="switchLight()" />
-            <div class="slider round"></div>
-          </label>
         </div>
         <hr />
         <div class="row ps-3 pe-3" id="anime_detail"></div>
@@ -94,6 +90,17 @@
         <div id="episodes_pagination" class="row ps-3 pe-3 mt-1"></div>
         <hr />
         <footer class="container col-md-12 mx-auto mt-4">
+          <div
+            class="form-check form-switch fixed-bottom d-flex justify-content-end me-3 mb-3"
+          >
+            <button
+              class="btn btn-dark-mode bg-primary text-white"
+              id="theme-toggle"
+            >
+              <i class="fas fa-moon"></i>
+              <i class="fas fa-sun"></i>
+            </button>
+          </div>
           <p class="text-center mb-0">
             Made with a cup of
             <i class="fa-duotone fa-mug-hot ms-2 me-2 text-green fa-shake"></i>
@@ -104,7 +111,6 @@
       </div>
     </div>
     <script src="/assets/js/details.js"></script>
-    <script src="/assets/js/light.js"></script>
     <script>
       const container = document.querySelector("#anime_detail");
       container.addEventListener("click", (event) => {
@@ -117,6 +123,31 @@
           target.textContent = description.classList.contains("show-more")
             ? "Sembunyikan"
             : "Selengkapnya";
+        }
+      });
+      const toggle = document.querySelector("#theme-toggle");
+      const link = document.querySelector("#data-theme");
+
+      const theme = localStorage.getItem("theme");
+
+      if (theme === "dark") {
+        toggle.classList.add("active");
+        link.href = "/assets/css/dark.css";
+        document.body.classList.add("dark-mode");
+      }
+
+      toggle.addEventListener("click", () => {
+        toggle.classList.toggle("active");
+        if (toggle.classList.contains("active")) {
+          link.href = "/assets/css/dark.css";
+          document.body.classList.add("dark-mode");
+
+          localStorage.setItem("theme", "dark");
+        } else {
+          link.href = "/assets/css/light.css";
+          document.body.classList.remove("dark-mode");
+
+          localStorage.setItem("theme", "light");
         }
       });
     </script>
