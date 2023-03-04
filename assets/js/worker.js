@@ -6,5 +6,5 @@ if ("serviceWorker" in navigator) {
         console.log(e, "Worker failed to register");
       });
   } else {
-    console.log("Error");
+    console.log("Error, serviceWorker not supported");
   }
