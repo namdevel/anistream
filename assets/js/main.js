@@ -16,6 +16,7 @@ animeLinks.forEach((e) => {
 const toggle = document.querySelector("#theme-toggle"),
   link = document.querySelector("#data-theme"),
   table_tayang = document.querySelector("#table_tayang"),
+  table_search_result = document.querySelector("#search-results"),
   theme = localStorage.getItem("theme");
 "dark" === theme &&
   (toggle.classList.add("active"),
@@ -23,6 +24,7 @@ const toggle = document.querySelector("#theme-toggle"),
   document.body.classList.add("dark-mode"),
   table_tayang.classList.remove("table-light"),
   table_tayang.classList.add("table-dark")),
+  table_search_result.classList.remove("table-light"),
   toggle.addEventListener("click", () => {
     toggle.classList.toggle("active"),
       toggle.classList.contains("active")
@@ -30,10 +32,14 @@ const toggle = document.querySelector("#theme-toggle"),
           document.body.classList.add("dark-mode"),
           table_tayang.classList.remove("table-light"),
           table_tayang.classList.add("table-dark"),
+          table_search_result.classList.remove("table-light"),
+          table_search_result.classList.add("table-dark"),
           localStorage.setItem("theme", "dark"))
         : ((link.href = "/assets/css/light.css"),
           document.body.classList.remove("dark-mode"),
           table_tayang.classList.remove("table-dark"),
           table_tayang.classList.add("table-light"),
+          table_search_result.classList.remove("table-dark"),
+          table_search_result.classList.add("table-light"),
           localStorage.setItem("theme", "light"));
   });

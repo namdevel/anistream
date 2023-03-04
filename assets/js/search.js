@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", function () {
       var t = document.getElementById("search-input").value;
       $.ajax({
         method: "GET",
-        url: `https://backend.heusc.space/v1/search/` + t,
+        url: `http://backend-anipi.test/v1/search/` + t,
         beforeSend: function () {
           document.getElementById("spinner").style.display = "block";
         },
