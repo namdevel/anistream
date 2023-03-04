@@ -1,7 +1,7 @@
 self.addEventListener("install", e => {
   e.waitUntil(
     caches.open("static").then(cache => {
-      return cache.addAll(["./", './assets/img/favicon.png']);
+      return cache.addAll(["./", './assets/img/wibu-makima.png']);
     })
   );
 });
