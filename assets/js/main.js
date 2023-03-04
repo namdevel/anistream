@@ -20,8 +20,8 @@ animeLinks.forEach((link) => {
 const toggle = document.querySelector("#theme-toggle");
 const link = document.querySelector("#data-theme");
 const table_tayang = document.querySelector("#table_tayang");
-const table_search_result = document.querySelector("#search-results");
 const theme = localStorage.getItem("theme");
+const table_search = document.querySelector("#table_cok");
 
 if (theme === "dark") {
   toggle.classList.add("active");
@@ -29,8 +29,8 @@ if (theme === "dark") {
   document.body.classList.add("dark-mode");
   table_tayang.classList.remove("table-light");
   table_tayang.classList.add("table-dark");
-  table_search_result.classList.remove("table-light");
-  table_search_result.classList.add("table-dark");
+  table_search.classList.remove("table-light");
+  table_search.classList.add("table-dark");
 }
 
 toggle.addEventListener("click", () => {
@@ -40,16 +40,16 @@ toggle.addEventListener("click", () => {
     document.body.classList.add("dark-mode");
     table_tayang.classList.remove("table-light");
     table_tayang.classList.add("table-dark");
-    table_search_result.classList.remove("table-light");
-    table_search_result.classList.add("table-dark");
+    table_search.classList.remove("table-light");
+    table_search.classList.add("table-dark");
     localStorage.setItem("theme", "dark");
   } else {
     link.href = "/assets/css/light.css";
     document.body.classList.remove("dark-mode");
     table_tayang.classList.remove("table-dark");
     table_tayang.classList.add("table-light");
-    table_search_result.classList.remove("table-light");
-    table_search_result.classList.add("table-dark");
+    table_search.classList.remove("table-dark");
+    table_search.classList.add("table-light");
     localStorage.setItem("theme", "light");
   }
 });
