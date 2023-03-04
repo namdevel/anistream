@@ -1,6 +1,7 @@
 {
   "name": "WibuTV - Anime Index",
   "short_name": "WibuTV",
+  "description": "The #1 Anime Index with Indonesian subtitles",
   "start_url": ".",
   "theme_color": "#00dc5a",
   "background_color": "#3a3f44",
