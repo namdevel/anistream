@@ -20,7 +20,7 @@ document
           Array.isArray(response.items) &&
           response.items.length > 0
         ) {
-          var table = document.getElementById("search-results");
+          var table = document.getElementById("table_cok");
           $("#pagination").pagination({
             dataSource: response.items,
             locator: "items",
