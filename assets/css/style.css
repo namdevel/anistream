@@ -5,6 +5,7 @@ body {
   /*background-color: #252529 !important;*/
   border-right: #484a4e 1px solid;
   border-left: #484a4e 1px solid;
+  border-bottom: #484a4e 3px solid;
   margin-bottom: 0px !important;
 }
 
@@ -102,4 +103,43 @@ a {
 
 .btn-dark-mode.active i:last-child {
   display: inline-block;
+}
+.more-content {
+  height: auto;
+  overflow: hidden;
+}
+
+.text-truncate.show-more {
+  white-space: normal;
+}
+
+.text-truncate.show-more ~ .more-content {
+  display: block;
+}
+.btn-no-caret {
+  padding-top: 4px;
+  font-size: 13px;
+  /*btn-sm line-height: 1.5;*/
+  line-height: 1 !important;
+}
+.nav-pills .nav-item {
+  margin-right: 3px;
+}
+#release-dates-container {
+  overflow-x: scroll;
+  white-space: nowrap;
+  -webkit-overflow-scrolling: touch; /* for smoother scrolling on iOS devices */
+}
+
+#release-dates-container::-webkit-scrollbar {
+  display: none; /* hide scrollbar in WebKit browsers */
+}
+.scroll-ctx {
+  box-sizing: border-box;
+  max-width: 610px !important;
+  overflow: auto;
+}
+.artplayer-app {
+  width: 100%;
+  height: 300px;
 }
