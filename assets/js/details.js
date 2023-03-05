@@ -44,30 +44,133 @@ document.addEventListener("DOMContentLoaded", async function () {
 
   const detailsContainer = document.getElementById("anime_detail");
 
+  var np,
+    na,
+    tt,
+    tg,
+    ts = "";
+
+  if (
+    typeof json_data !== "undefined" &&
+    json_data !== null &&
+    typeof json_data.data !== "undefined" &&
+    json_data.data !== null &&
+    typeof json_data.data.details !== "undefined" &&
+    json_data.data.details !== null &&
+    typeof json_data.data.details.information !== "undefined" &&
+    json_data.data.details.information !== null &&
+    typeof json_data.data.details.information[0] !== "undefined" &&
+    json_data.data.details.information[0] !== null &&
+    typeof json_data.data.details.information[0].value !== "undefined" &&
+    json_data.data.details.information[0].value !== null
+  ) {
+    np = `<span class="text-secondary-emphasis">${json_data.data.details.information[0].field} : <em class="text-info">${json_data.data.details.information[0].value}</em></span><br>`;
+  } else {
+    np = "";
+  }
+  if (
+    typeof json_data !== "undefined" &&
+    json_data !== null &&
+    typeof json_data.data !== "undefined" &&
+    json_data.data !== null &&
+    typeof json_data.data.details !== "undefined" &&
+    json_data.data.details !== null &&
+    typeof json_data.data.details.information !== "undefined" &&
+    json_data.data.details.information !== null &&
+    typeof json_data.data.details.information[1] !== "undefined" &&
+    json_data.data.details.information[1] !== null &&
+    typeof json_data.data.details.information[1].value !== "undefined" &&
+    json_data.data.details.information[1].value !== null
+  ) {
+    na = `<span class="text-secondary-emphasis">${json_data.data.details.information[1].field} : <em class="text-info">${json_data.data.details.information[1].value}</em></span><br>`;
+  } else {
+    na = "";
+  }
+  if (
+    typeof json_data !== "undefined" &&
+    json_data !== null &&
+    typeof json_data.data !== "undefined" &&
+    json_data.data !== null &&
+    typeof json_data.data.details !== "undefined" &&
+    json_data.data.details !== null &&
+    typeof json_data.data.details.union_info !== "undefined" &&
+    json_data.data.details.union_info !== null &&
+    typeof json_data.data.details.union_info[0] !== "undefined" &&
+    json_data.data.details.union_info[0] !== null
+  ) {
+    let ttparse = json_data.data.details.union_info[0].split("|");
+    ttparse = `${ttparse[0]} - ${ttparse[1]}`;
+    tt = `<span class="text-secondary-emphasis">Kategori :<em class="text-info"> ${ttparse}</em></span>
+    <br>`;
+  } else {
+    tt = "";
+  }
+  if (
+    typeof json_data !== "undefined" &&
+    json_data !== null &&
+    typeof json_data.data !== "undefined" &&
+    json_data.data !== null &&
+    typeof json_data.data.details !== "undefined" &&
+    json_data.data.details !== null &&
+    typeof json_data.data.details.union_info !== "undefined" &&
+    json_data.data.details.union_info !== null &&
+    typeof json_data.data.details.union_info[1] !== "undefined" &&
+    json_data.data.details.union_info[1] !== null
+  ) {
+    tg = `<span class="text-secondary-emphasis">Tanggal : <em class="text-info">${json_data.data.details.union_info[1]}</em></span>
+    <br>`;
+  } else {
+    tg = "";
+  }
+
+  if (
+    typeof json_data !== "undefined" &&
+    json_data !== null &&
+    typeof json_data.data !== "undefined" &&
+    json_data.data !== null &&
+    typeof json_data.data.details !== "undefined" &&
+    json_data.data.details !== null &&
+    typeof json_data.data.details.union_info !== "undefined" &&
+    json_data.data.details.union_info !== null &&
+    typeof json_data.data.details.union_info[2] !== "undefined" &&
+    json_data.data.details.union_info[2] !== null
+  ) {
+    ts = `<span class="text-secondary-emphasis">Status : <em class="text-info">${json_data.data.details.union_info[2]}</em></span>
+    <br>`;
+  } else {
+    ts = "";
+  }
   detailsContainer.innerHTML = `
-    <div class="col-md-3">
-      <img src="${BACKEND_URL}/image/${json_data.data.horizon_cover}" alt="${
+  <div class="col-md-3">
+    <img src="${BACKEND_URL}/image/${json_data.data.horizon_cover}" alt="${
     json_data.data.title
   }" class="img-fluid">
-    </div>
-    <div class="col-md-9">
-      <h6 class="mb-3 text-light text-truncate">${json_data.data.title}</h6>
-      ${getGenres()
-        .map(
-          (genre) => `<span class="badge bg-success mb-3 me-2">${genre}</span>`
-        )
-        .join("")}
-        <span class="badge bg-danger mb-3 me-2"><i class="fa fa-eye me-2"></i>${
-          json_data.data.stat.views
-        }</span>
-    </div>
-    <div class="col-md-12">
-      <p class="more-content text-secondary-emphasis text-truncate mt-3">
-        <small>${json_data.data.details.desc.value}</small>
-      </p>
-      <a href="javascript:void(0)" class="show-more">Selengkapnya</a>
-    </div>
-  `;
+  </div>
+  <div class="col-md-9 gy-2">
+    <h6 class="mb-1  text-truncate">${json_data.data.title}</h6>
+    <p>
+    ${np}
+    ${na}
+    ${tt}
+    ${tg}
+    ${ts}
+    </p>
+    ${getGenres()
+      .map(
+        (genre) => `<span class="badge bg-success mb-3 me-2">${genre}</span>`
+      )
+      .join("")}
+      <span class="badge bg-danger mb-3 me-2"><i class="fa fa-eye me-2"></i>${
+        json_data.data.stat.views
+      }</span>
+  </div>
+  <div class="col-md-12">
+    <p class="more-content text-secondary-emphasis text-truncate mt-3">
+      <small>${json_data.data.details.desc.value}</small>
+    </p>
+    <a href="javascript:void(0)" class="show-more">Selengkapnya</a>
+  </div>
+`;
 
   const buttonContainer = document.getElementById("episodes");
   const sectionData = json_data.data.sections.section;
