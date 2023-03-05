@@ -147,7 +147,7 @@ document.addEventListener("DOMContentLoaded", async function () {
   }" class="img-fluid">
   </div>
   <div class="col-md-9 gy-2">
-    <h6 class="mb-1  text-truncate">${json_data.data.title}</h6>
+    <h5 class="mb-1  text-truncate">${json_data.data.title}</h5>
     <p>
     ${np}
     ${na}
