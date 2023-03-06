@@ -302,6 +302,11 @@ document.addEventListener("DOMContentLoaded", async function () {
   };
 
   const defaultSubType = await getSubtitleType(defaultEpId);
+  const defaultAudio = "360P";
+  const audio = new Audio(
+    `${BACKEND_URL}/v1/audio/${defaultEpId}/${defaultAudio}`
+  );
+
   const player = new Artplayer({
     container: ".artplayer-app",
     url: `${BACKEND_URL}/v1/video/${defaultEpId}/360P`,
@@ -380,10 +385,6 @@ document.addEventListener("DOMContentLoaded", async function () {
       indicator: '<img width="16" heigth="16" src="/assets/img/indicator.svg">',
     },
   });
-  const defaultAudio = "360P";
-  const audio = new Audio(
-    `${BACKEND_URL}/v1/audio/${defaultEpId}/${defaultAudio}`
-  );
 
   player.on("video:loadeddata", () => {
     const audioURL = player.url.replace("video", "audio");
@@ -421,16 +422,47 @@ document.addEventListener("DOMContentLoaded", async function () {
     audio.src = audioURL;
   });
 
+  /*
+  let audioCanPlay = false;
+
+  audio.oncanplaythrough = function () {
+    audioCanPlay = true;
+    if (!player.paused && playerQuality !== "360P") {
+      audio.play();
+    }
+  };
+*/
+  player.on("video:volumechange", () => {
+    if (player.muted) {
+      audio.muted = true;
+    } else {
+      audio.muted = false;
+      audio.volume = player.volume;
+    }
+  });
+  player.on("video:canplaythrough", function () {
+    player.play();
+  });
+
   player.on("play", () => {
     if (playerQuality !== "360P") {
+      audio.currentTime = player.currentTime;
       audio.play();
     }
   });
+
   player.on("pause", () => {
-    if (playerQuality !== "360P") {
+    if (playerQuality !== "360P" && !audio.paused) {
       audio.pause();
     }
   });
+
+  player.on("video:pause", () => {
+    if (playerQuality !== "360P" && !audio.paused) {
+      audio.pause();
+    }
+  });
+
   player.on("seek", () => {
     if (playerQuality !== "360P") {
       audio.currentTime = player.currentTime;
@@ -456,17 +488,31 @@ document.addEventListener("DOMContentLoaded", async function () {
   });
 
   player.on("fullscreen", () => {
-    player.subtitle.style({
-      fontSize: "3vw",
-      "margin-bottom": "30px",
-    });
+    if (player.fullscreen) {
+      player.subtitle.style({
+        fontSize: "3vw",
+        "margin-bottom": "30px",
+      });
+    } else {
+      player.subtitle.style({
+        fontSize: "18px",
+        "margin-bottom": "0px",
+      });
+    }
   });
 
   player.on("fullscreenWeb", () => {
-    player.subtitle.style({
-      fontSize: "3vw",
-      "margin-bottom": "30px",
-    });
+    if (player.fullscreenWeb) {
+      player.subtitle.style({
+        fontSize: "3vw",
+        "margin-bottom": "30px",
+      });
+    } else {
+      player.subtitle.style({
+        fontSize: "18px",
+        "margin-bottom": "0px",
+      });
+    }
   });
 
   episodesContainer.addEventListener("click", async (event) => {
