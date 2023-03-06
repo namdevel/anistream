@@ -296,8 +296,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     player.switchUrl(`${BACKEND_URL}/v1/video/${episodeId}/${playerQuality}`);
     player.subtitle.url = `${BACKEND_URL}/v1/subtitle/${episodeId}`;
     player.subtitle.type = subtitleType;
-    console.log(episodePoster);
-    audio.src = `${BACKEND_URL}/v1/audio/${episodeId}${playerQuality}`;
+    audio.src = `${BACKEND_URL}/v1/audio/${episodeId}/${playerQuality}`;
     audio.load();
   };
 
@@ -364,6 +363,7 @@ document.addEventListener("DOMContentLoaded", async function () {
       },
       encoding: "utf-8",
     },
+
     layers: [
       {
         html: '<img width="150" src="/assets/img/logo2.png">',
@@ -439,9 +439,6 @@ document.addEventListener("DOMContentLoaded", async function () {
       audio.muted = false;
       audio.volume = player.volume;
     }
-  });
-  player.on("video:canplaythrough", function () {
-    player.play();
   });
 
   player.on("play", () => {
