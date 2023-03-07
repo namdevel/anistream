@@ -54,8 +54,8 @@ a {
 }
 .banner {
   position: relative;
-  border-bottom: 3px dashed #f94622 !important;
-  border-top: 3px solid #f94622 !important;
+  border-bottom: 3px dashed #ec8663 !important;
+  border-top: 3px solid #ec8663 !important;
 }
 
 .banner img {
@@ -142,4 +142,10 @@ a {
 .artplayer-app {
   width: 100%;
   height: 300px;
+}
+
+@media screen and (max-width: 1150px) {
+  .img-runa {
+    display: none;
+  }
 }
