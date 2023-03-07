@@ -124,9 +124,9 @@ document.addEventListener("DOMContentLoaded", async function () {
 
   detailsContainer.innerHTML = `
   <div class="col-md-3">
-    <img src="${BACKEND_URL}/image/${json_data.data.horizon_cover}" alt="${
-    json_data.data.title
-  }" class="img-fluid">
+    <img src="${BACKEND_URL}/image/${
+    json_data.data.horizon_cover
+  }@720w_405h_1e_1c_90q.webp" alt="${json_data.data.title}" class="img-fluid">
   </div>
   <div class="col-md-9 gy-2">
     <h5 class="mb-1  text-truncate">${json_data.data.title}</h5>
@@ -418,8 +418,12 @@ document.addEventListener("DOMContentLoaded", async function () {
       const currentPlayButton = document.querySelector(".currentPlay");
       if (currentPlayButton) {
         currentPlayButton.classList.remove("currentPlay");
+        currentPlayButton.classList.remove("bg-success");
+        currentPlayButton.classList.remove("text-white");
       }
       event.target.classList.add("currentPlay");
+      event.target.classList.add("bg-success");
+      event.target.classList.add("text-white");
       player.pause;
       player.poster = "/assets/img/default.jpg";
       player.loading.show = true;
@@ -485,6 +489,8 @@ document.addEventListener("DOMContentLoaded", async function () {
             buttonContainer.appendChild(button);
             if (currentButtonIndex === 0) {
               button.classList.add("currentPlay");
+              button.classList.add("bg-success");
+              button.classList.add("text-white");
             }
           }
           currentButtonIndex++;
