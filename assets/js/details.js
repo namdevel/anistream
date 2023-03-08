@@ -309,27 +309,9 @@ document.addEventListener("DOMContentLoaded", async function () {
     }
   });
 
-  player.on("seek", () => {
-    if (playerQuality !== "360P") {
-      audio.currentTime = player.currentTime;
-    }
-  });
-
   player.on("video:timeupdate", () => {
     if (playerQuality !== "360P") {
       audio.currentTime = player.currentTime;
-    }
-  });
-
-  player.on("video:durationchange", () => {
-    if (playerQuality !== "360P") {
-      audio.currentTime = player.currentTime;
-    }
-  });
-
-  player.on("video:volumechange", () => {
-    if (playerQuality !== "360P") {
-      audio.volume = player.volume;
     }
   });
 
