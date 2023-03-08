@@ -529,5 +529,5 @@ document.addEventListener("DOMContentLoaded", async function () {
   }
 
   /* eslint-disable no-unused-vars */
-  /* 2023 - WibuTV */
+  /* 2023 - (ngewibu.tv) WibuTV */
 });
