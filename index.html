@@ -1,8 +1,12 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <title>WibuTV - Anime Index</title>
     <meta charset="utf-8" />
+    <meta
+      name="description"
+      content="Nonton anime premium sub Indo gratis di Ngewibu.tv. Nikmati koleksi anime terbaru dan terbaik dari Jepang dalam kualitas definisi tinggi dengan subtitle Bahasa Indonesia yang akurat. Tanpa biaya langganan atau pendaftaran."
+    />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="manifest" href="/manifest.json" />
     <link rel="shortcut icon" href="/favicon.ico" />
@@ -67,6 +71,7 @@
                 id="search-button"
                 class="btn btn-primary btn-sm"
                 type="submit"
+                aria-label="search-anime"
               >
                 <i class="fa-solid fa-search"></i>
               </button>
@@ -278,6 +283,7 @@
             class="btn btn-dark-mode bg-primary text-white mb-3 me-3"
             id="theme-toggle"
             style="position: fixed; bottom: 0; right: 0"
+            aria-label="color-mode"
           >
             <i class="fas fa-moon"></i>
             <i class="fas fa-sun"></i>
@@ -313,6 +319,5 @@
     <script src="/assets/js/loader-index.js"></script>
     <script src="/assets/js/main.js"></script>
     <script src="/assets/js/jadwal.js"></script>
-    <script src="/assets/js/worker.js"></script>
   </body>
 </html>
