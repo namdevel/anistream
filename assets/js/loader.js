@@ -1,110 +1,88 @@
-function render(elementId, endpoint, imageType = "@405w_645h_1e_1c_90q.webp") {
-  const animeListContainer = document.querySelector(`#${elementId}`);
-  let loaderElement;
-
-  function showLoader() {
-    loaderElement = document.createElement("div");
-    loaderElement.className = "col mx-auto text-center";
-    loaderElement.innerHTML = `
+function render(e, t, n = "@405w_645h_1e_1c_90q.webp") {
+  let l = document.querySelector(`#${e}`),
+    a;
+  function i() {
+    ((a = document.createElement("div")).className = "col mx-auto text-center"),
+      (a.innerHTML = `
         <div class="spinner-border" role="status">
           <span class="visually-hidden">Loading...</span>
         </div>
-      `;
-    animeListContainer.appendChild(loaderElement);
+      `),
+      l.appendChild(a);
   }
-
-  function hideLoader() {
-    if (loaderElement) {
-      loaderElement.remove();
-    }
+  function r() {
+    a && a.remove();
   }
-
-  function showError(message) {
-    const errorElement = document.createElement("div");
-    errorElement.className = "col mx-auto text-center";
-    errorElement.innerHTML = `
+  i(),
+    (function e() {
+      fetch(`${BACKEND_URL}/${t}`)
+        .then(function (e) {
+          return e.json();
+        })
+        .then(function (e) {
+          r();
+          let t = e.list.map((e) => {
+            let t = document.createElement("div");
+            t.className = "col";
+            let a = document.createElement("a");
+            (a.href = `/details.html?id=${e.season_id}`),
+              (a.className = "card h-100 d-flex");
+            let i = document.createElement("div");
+            i.className = "position-relative";
+            let r = document.createElement("img");
+            (r.src = `${BACKEND_URL}/image/${e.cover}${n}`),
+              (r.className = "card-img-top"),
+              (r.alt = e.title),
+              (r.title = e.title),
+              (r.loading = "lazy"),
+              (r.onerror = () => {
+                r.src = `${BACKEND_URL}/image/${e.cover}@405w_645h_1e_1c_90q.webp`;
+              }),
+              (r.style.cssText =
+                "height: 100%; width: 100%; object-fit: cover; transition: opacity 0.2s ease-in-out;");
+            let c = document.createElement("div");
+            c.className = "position-absolute top-0 end-0 m-0";
+            let s = document.createElement("div");
+            (s.className = "badge rounded-pill bg-primary"),
+              (s.style.transform = "scale(0.8)"),
+              (s.innerText = e.index_show ?? e.subtitle);
+            let d = document.createElement("div");
+            d.className = "text-box";
+            let o = document.createElement("p");
+            return (
+              (o.className = "title"),
+              (o.title = e.title),
+              (o.innerText = e.title),
+              l.appendChild(t),
+              t.appendChild(a),
+              a.appendChild(i),
+              i.appendChild(r),
+              i.appendChild(c),
+              c.appendChild(s),
+              a.appendChild(d),
+              d.appendChild(o),
+              t
+            );
+          });
+          (l.innerHTML = ""), l.append(...t);
+        })
+        .catch(function (n) {
+          console.error(`Failed to fetch anime list from ${t}`, n),
+            r(),
+            (function t(n) {
+              let a = document.createElement("div");
+              (a.className = "col mx-auto text-center"),
+                (a.innerHTML = `
         <button type="button" class="btn btn-primary btn-reload">
-          <i class="fas fa-redo"></i> ${message}
+          <i class="fas fa-redo"></i> ${n}
         </button>
-      `;
-    animeListContainer.appendChild(errorElement);
-
-    const reloadButton = errorElement.querySelector(".btn-reload");
-    reloadButton.addEventListener("click", () => {
-      animeListContainer.innerHTML = "";
-      showLoader();
-      fetchAnimeList();
-    });
-  }
-
-  function fetchAnimeList() {
-    fetch(`${BACKEND_URL}/${endpoint}`)
-      .then(function (response) {
-        return response.json();
-      })
-      .then(function (data) {
-        hideLoader();
-
-        const animeList = data.list.map((item) => {
-          const animeItem = document.createElement("div");
-          animeItem.className = "col";
-
-          const animeLink = document.createElement("a");
-          animeLink.href = `/details.html?id=${item.season_id}`;
-          animeLink.className = "card h-100 d-flex";
-
-          const animeImageContainer = document.createElement("div");
-          animeImageContainer.className = "position-relative";
-
-          const animeImage = document.createElement("img");
-          animeImage.src = `${BACKEND_URL}/image/${item.cover}${imageType}`;
-          animeImage.className = "card-img-top";
-          animeImage.alt = item.title;
-          animeImage.title = item.title;
-          animeImage.loading = "lazy";
-          animeImage.onerror = () => {
-            animeImage.src = `${BACKEND_URL}/image/${item.cover}@405w_645h_1e_1c_90q.webp`;
-          };
-          animeImage.style.cssText =
-            "height: 100%; width: 100%; object-fit: cover; transition: opacity 0.2s ease-in-out;";
-
-          const animeBadgeContainer = document.createElement("div");
-          animeBadgeContainer.className = "position-absolute top-0 end-0 m-0";
-
-          const animeBadge = document.createElement("div");
-          animeBadge.className = "badge rounded-pill bg-primary";
-          animeBadge.style.transform = "scale(0.8)";
-          animeBadge.innerText = item.index_show ?? item.subtitle;
-
-          const animeTextBox = document.createElement("div");
-          animeTextBox.className = "text-box";
-
-          const animeTitle = document.createElement("p");
-          animeTitle.className = "title";
-          animeTitle.title = item.title;
-          animeTitle.innerText = item.title;
-          animeListContainer.appendChild(animeItem);
-          animeItem.appendChild(animeLink);
-          animeLink.appendChild(animeImageContainer);
-          animeImageContainer.appendChild(animeImage);
-          animeImageContainer.appendChild(animeBadgeContainer);
-          animeBadgeContainer.appendChild(animeBadge);
-          animeLink.appendChild(animeTextBox);
-          animeTextBox.appendChild(animeTitle);
-
-          return animeItem;
+      `),
+                l.appendChild(a);
+              let r = a.querySelector(".btn-reload");
+              r.addEventListener("click", () => {
+                (l.innerHTML = ""), i(), e();
+              });
+            })("Click to reload.");
         });
-
-        animeListContainer.innerHTML = "";
-        animeListContainer.append(...animeList);
-      })
-      .catch(function (error) {
-        console.error(`Failed to fetch anime list from ${endpoint}`, error);
-        hideLoader();
-        showError(`Click to reload.`);
-      });
-  }
-
-  showLoader();
-  fetchAnimeList();
+    })();
 }

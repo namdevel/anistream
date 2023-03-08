@@ -1,142 +1,86 @@
 fetch(`${BACKEND_URL}/jadwal`)
-  .then((response) => response.json())
-  .then((result) => {
-    // Get the release dates container
-    const releaseDatesGroup = document.querySelector("#release-dates");
-    const dataJadwalTbody = document.querySelector("#datajadwal tbody");
-    const today = new Date(); // get current date
-    const monthNames = [
-      "Januari",
-      "Februari",
-      "Maret",
-      "April",
-      "Mei",
-      "Juni",
-      "Juli",
-      "Agustus",
-      "September",
-      "Oktober",
-      "November",
-      "Desember",
-    ];
-    const month = monthNames[today.getMonth()]; // get month name from array
-    const year = today.getFullYear(); // get year
-    const todayMonth = `${month} ${year}`; // concatenate month and year
-    let firstButton = null;
-    // Loop through the data array and create a button for each date
-    result.data.slice(6).forEach((item, index) => {
-      // Extract the date and day_of_week values
-      const date = item.date;
-      const dayOfWeek = item.day_of_week;
-      const episodes = item.episodes;
-
-      // Create a button element
-      const button = document.createElement("button");
-      if (item.is_today && item.is_today === 1) {
-        button.classList.add(
-          "btn",
-          "btn-success",
-          "btn-sm",
-          "btn-no-caret",
-          "index-jadwal"
-        );
-      } else {
-        button.classList.add("btn", "btn-light", "btn-sm", "btn-no-caret");
-      }
-      // Add classes and attributes to the button
-
-      button.setAttribute("type", "button");
-      button.setAttribute("data-date", date);
-      button.setAttribute("data-day-of-week", dayOfWeek);
-
-      // Set the button text to the date and day_of_week values
-      button.innerText = `${getDayOfWeekString(
-        dayOfWeek
-      )}, ${date} ${todayMonth}`;
-
-      // Append the button to the release dates container
-      releaseDatesGroup.appendChild(button);
-
-      // Save the reference to the first button
-      if (index === 0) {
-        firstButton = button;
-      }
-
-      // Add click event listener to the button
-      button.addEventListener("click", () => {
-        dataJadwalTbody.innerHTML = "";
-        if (episodes && episodes.length > 0) {
-          episodes.forEach((episode) => {
-            const { pub_time, pub_index, title, season_id } = episode;
-            const tr = document.createElement("tr");
-            const tdPubTime = document.createElement("td");
-            tdPubTime.innerHTML =
-              "<span class='badge rounded-pill bg-primary'>" +
-              pub_time +
-              " WIB</span>";
-            tr.appendChild(tdPubTime);
-
-            const tdTitle = document.createElement("td");
-            const truncatedTitle =
-              title.length > 30 ? title.substring(0, 30) + "..." : title;
-            tdTitle.innerHTML =
-              "<a href='/details.html?id=" +
-              season_id +
-              "'>" +
-              truncatedTitle +
-              "</a>";
-            tr.appendChild(tdTitle);
-
-            const tdPubIndex = document.createElement("td");
-            tdPubIndex.classList.add("text-center");
-            tdPubIndex.innerHTML =
-              "<span class='badge rounded-pill bg-danger'>" +
-              pub_index +
-              "</span>";
-            tr.appendChild(tdPubIndex);
-            dataJadwalTbody.appendChild(tr);
-          });
-        }
-      });
-    });
-
-    // Trigger click event on the first button
-    if (firstButton) {
-      firstButton.click();
-    }
+  .then((e) => e.json())
+  .then((e) => {
+    let t = document.querySelector("#release-dates"),
+      a = document.querySelector("#datajadwal tbody"),
+      n = new Date(),
+      r = [
+        "Januari",
+        "Februari",
+        "Maret",
+        "April",
+        "Mei",
+        "Juni",
+        "Juli",
+        "Agustus",
+        "September",
+        "Oktober",
+        "November",
+        "Desember",
+      ],
+      s = r[n.getMonth()],
+      l = n.getFullYear(),
+      i = `${s} ${l}`,
+      d = null;
+    e.data.slice(6).forEach((e, n) => {
+      let r = e.date,
+        s = e.day_of_week,
+        l = e.episodes,
+        o = document.createElement("button");
+      e.is_today && 1 === e.is_today
+        ? o.classList.add(
+            "btn",
+            "btn-success",
+            "btn-sm",
+            "btn-no-caret",
+            "index-jadwal"
+          )
+        : o.classList.add("btn", "btn-light", "btn-sm", "btn-no-caret"),
+        o.setAttribute("type", "button"),
+        o.setAttribute("data-date", r),
+        o.setAttribute("data-day-of-week", s),
+        (o.innerText = `${getDayOfWeekString(s)}, ${r} ${i}`),
+        t.appendChild(o),
+        0 === n && (d = o),
+        o.addEventListener("click", () => {
+          (a.innerHTML = ""),
+            l &&
+              l.length > 0 &&
+              l.forEach((e) => {
+                let { pub_time: t, pub_index: n, title: r, season_id: s } = e,
+                  l = document.createElement("tr"),
+                  i = document.createElement("td");
+                (i.innerHTML =
+                  "<span class='badge rounded-pill bg-primary'>" +
+                  t +
+                  " WIB</span>"),
+                  l.appendChild(i);
+                let d = document.createElement("td"),
+                  o = r.length > 30 ? r.substring(0, 30) + "..." : r;
+                (d.innerHTML =
+                  "<a href='/details.html?id=" + s + "'>" + o + "</a>"),
+                  l.appendChild(d);
+                let c = document.createElement("td");
+                c.classList.add("text-center"),
+                  (c.innerHTML =
+                    "<span class='badge rounded-pill bg-danger'>" +
+                    n +
+                    "</span>"),
+                  l.appendChild(c),
+                  a.appendChild(l);
+              });
+        });
+    }),
+      d && d.click();
   });
-
 const releaseDatesContainer = document.querySelector(
   "#release-dates-container"
 );
-let isDragging = false;
-let startX, scrollLeft;
-
-// handle mousedown event
-document.addEventListener("mousedown", (e) => {
-  if (!e.target.closest("#release-dates-container")) return;
-  e.preventDefault();
-  isDragging = true;
-  startX = e.pageX - releaseDatesContainer.offsetLeft;
-  scrollLeft = releaseDatesContainer.scrollLeft;
-});
-
-// handle mousemove event
-document.addEventListener("mousemove", (e) => {
-  if (!isDragging) return;
-  e.preventDefault();
-  const x = e.pageX - releaseDatesContainer.offsetLeft;
-  const walk = (x - startX) * 1.5;
-  releaseDatesContainer.scrollLeft = scrollLeft - walk;
-});
-
-// handle mouseup event
-document.addEventListener("mouseup", () => {
-  isDragging = false;
-});
-
-function getDayOfWeekString(dayOfWeek) {
-  switch (dayOfWeek) {
+let isDragging = !1,
+  startX,
+  scrollLeft;
+function getDayOfWeekString(e) {
+  switch (e) {
     case 1:
       return "Senin";
     case 2:
@@ -155,14 +99,30 @@ function getDayOfWeekString(dayOfWeek) {
       return "";
   }
 }
-
 function updateClock() {
-  const now = new Date();
-  const hours = now.getHours().toString().padStart(2, "0");
-  const minutes = now.getMinutes().toString().padStart(2, "0");
-  const seconds = now.getSeconds().toString().padStart(2, "0");
-  const time = `${hours}:${minutes}:${seconds}`;
+  let e = new Date(),
+    t = e.getHours().toString().padStart(2, "0"),
+    a = e.getMinutes().toString().padStart(2, "0"),
+    n = e.getSeconds().toString().padStart(2, "0"),
+    r = `${t}:${a}:${n}`;
   document.querySelector("#jam").innerHTML =
-    "<i class='fa fa-clock'></i> Waktu sekarang: " + time;
+    "<i class='fa fa-clock'></i> Waktu sekarang: " + r;
 }
-setInterval(updateClock, 1000);
+document.addEventListener("mousedown", (e) => {
+  e.target.closest("#release-dates-container") &&
+    (e.preventDefault(),
+    (isDragging = !0),
+    (startX = e.pageX - releaseDatesContainer.offsetLeft),
+    (scrollLeft = releaseDatesContainer.scrollLeft));
+}),
+  document.addEventListener("mousemove", (e) => {
+    if (!isDragging) return;
+    e.preventDefault();
+    let t = e.pageX - releaseDatesContainer.offsetLeft,
+      a = (t - startX) * 1.5;
+    releaseDatesContainer.scrollLeft = scrollLeft - a;
+  }),
+  document.addEventListener("mouseup", () => {
+    isDragging = !1;
+  }),
+  setInterval(updateClock, 1e3);
