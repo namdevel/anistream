@@ -1,17 +1,16 @@
 {
-  "name": "WibuTV - Anime Index",
-  "short_name": "WibuTV",
+  "name": "NgewibuTV - Anime Index",
+  "short_name": "NgewibuTV",
   "description": "The #1 Anime Index with Indonesian subtitles",
   "start_url": ".",
   "theme_color": "#00dc5a",
   "background_color": "#3a3f44",
   "display": "standalone",
-  "icons":[
+  "icons": [
     {
-      "src":"assets/img/wibulogo.png",
+      "src": "assets/img/wibulogo.png",
       "sizes": "192x192",
       "type": "image/png"
     }
   ]
-
 }
