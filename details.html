@@ -146,6 +146,19 @@
           localStorage.setItem("theme", "light");
         }
       });
+
+      const commitUrlElement = document.getElementById("commitUrl"),
+        commitShaElement = document.getElementById("commitSha");
+      fetch("https://api.github.com/repos/namdevel/anistream/commits/main")
+        .then((e) => e.json())
+        .then((e) => {
+          let t = e.sha,
+            a = `https://github.com/namdevel/anistream/commit/${t}`;
+          (commitUrlElement.href = a),
+            (commitShaElement.innerHTML =
+              '<i class="fa-solid fa-code-branch me-1"></i>' + t);
+        })
+        .catch((e) => console.error(e));
     </script>
   </body>
 </html>
