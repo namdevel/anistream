@@ -5,98 +5,114 @@ document.addEventListener("DOMContentLoaded", async function () {
   let i = new URLSearchParams(window.location.search),
     l = i.get("id");
   (!l || /[';"]/g.test(l)) && window.location.replace("index.html");
-  let s = await fetch(`${BACKEND_URL}/v1/season2/${l}`),
-    n = await s.json();
+  let n = await fetch(`${BACKEND_URL}/v1/season2/${l}`),
+    s = await n.json();
   try {
-    (!n.data.sections.section || n.data.sections.section.length < 1) &&
+    (!s.data.sections.section || s.data.sections.section.length < 1) &&
       (window.location.href = "index.html");
-  } catch (d) {
+  } catch (o) {
     window.location.href = "index.html";
   }
-  document.title = n.data.title + " - WIBU TV";
-  let o = document.getElementById("anime_detail");
+  document.title = s.data.title + " - WIBU TV";
+  let d = document.getElementById("anime_detail");
   var r,
     c,
     u,
     m,
-    $ = "";
+    $,
+    p = "";
   if (
     ((r =
-      null != n &&
-      void 0 !== n.data &&
-      null !== n.data &&
-      void 0 !== n.data.details &&
-      null !== n.data.details &&
-      void 0 !== n.data.details.information &&
-      null !== n.data.details.information &&
-      void 0 !== n.data.details.information[0] &&
-      null !== n.data.details.information[0] &&
-      void 0 !== n.data.details.information[0].value &&
-      null !== n.data.details.information[0].value
-        ? `<span class="text-secondary-emphasis">${n.data.details.information[0].field} : <em class="text-info">${n.data.details.information[0].value}</em></span><br>`
+      null != s &&
+      void 0 !== s.data &&
+      null !== s.data &&
+      void 0 !== s.data.details &&
+      null !== s.data.details &&
+      void 0 !== s.data.details.information &&
+      null !== s.data.details.information &&
+      void 0 !== s.data.details.information[0] &&
+      null !== s.data.details.information[0] &&
+      void 0 !== s.data.details.information[0].value &&
+      null !== s.data.details.information[0].value
+        ? `<span class="text-secondary-emphasis">${s.data.details.information[0].field} : <em class="text-info">${s.data.details.information[0].value}</em></span><br>`
         : ""),
     (c =
-      null != n &&
-      void 0 !== n.data &&
-      null !== n.data &&
-      void 0 !== n.data.details &&
-      null !== n.data.details &&
-      void 0 !== n.data.details.information &&
-      null !== n.data.details.information &&
-      void 0 !== n.data.details.information[1] &&
-      null !== n.data.details.information[1] &&
-      void 0 !== n.data.details.information[1].value &&
-      null !== n.data.details.information[1].value
-        ? `<span class="text-secondary-emphasis">${n.data.details.information[1].field} : <em class="text-info">${n.data.details.information[1].value}</em></span><br>`
+      null != s &&
+      void 0 !== s.data &&
+      null !== s.data &&
+      void 0 !== s.data.details &&
+      null !== s.data.details &&
+      void 0 !== s.data.details.information &&
+      null !== s.data.details.information &&
+      void 0 !== s.data.details.information[1] &&
+      null !== s.data.details.information[1] &&
+      void 0 !== s.data.details.information[1].value &&
+      null !== s.data.details.information[1].value
+        ? `<span class="text-secondary-emphasis">${s.data.details.information[1].field} : <em class="text-info">${s.data.details.information[1].value}</em></span><br>`
         : ""),
-    null != n &&
-      void 0 !== n.data &&
-      null !== n.data &&
-      void 0 !== n.data.details &&
-      null !== n.data.details &&
-      void 0 !== n.data.details.union_info &&
-      null !== n.data.details.union_info &&
-      void 0 !== n.data.details.union_info[0] &&
-      null !== n.data.details.union_info[0])
+    null != s &&
+      void 0 !== s.data &&
+      null !== s.data &&
+      void 0 !== s.data.details &&
+      null !== s.data.details &&
+      void 0 !== s.data.details.union_info &&
+      null !== s.data.details.union_info &&
+      void 0 !== s.data.details.union_info[0] &&
+      null !== s.data.details.union_info[0])
   ) {
-    let p = n.data.details.union_info[0].split("|");
-    u = `<span class="text-secondary-emphasis">Kategori :<em class="text-info"> ${(p = `${p[0]} - ${p[1]}`)}</em></span>
+    let v = s.data.details.union_info[0].split("|");
+    u = `<span class="text-secondary-emphasis">Kategori :<em class="text-info"> ${(v = `${v[0]} - ${v[1]}`)}</em></span>
     <br>`;
   } else u = "";
   (m =
-    null != n &&
-    void 0 !== n.data &&
-    null !== n.data &&
-    void 0 !== n.data.details &&
-    null !== n.data.details &&
-    void 0 !== n.data.details.union_info &&
-    null !== n.data.details.union_info &&
-    void 0 !== n.data.details.union_info[1] &&
-    null !== n.data.details.union_info[1]
-      ? `<span class="text-secondary-emphasis">Tanggal : <em class="text-info">${n.data.details.union_info[1]}</em></span>
+    null != s &&
+    void 0 !== s.data &&
+    null !== s.data &&
+    void 0 !== s.data.details &&
+    null !== s.data.details &&
+    void 0 !== s.data.details.union_info &&
+    null !== s.data.details.union_info &&
+    void 0 !== s.data.details.union_info[1] &&
+    null !== s.data.details.union_info[1]
+      ? `<span class="text-secondary-emphasis">Tanggal : <em class="text-info">${s.data.details.union_info[1]}</em></span>
     <br>`
       : ""),
     ($ =
-      null != n &&
-      void 0 !== n.data &&
-      null !== n.data &&
-      void 0 !== n.data.details &&
-      null !== n.data.details &&
-      void 0 !== n.data.details.union_info &&
-      null !== n.data.details.union_info &&
-      void 0 !== n.data.details.union_info[2] &&
-      null !== n.data.details.union_info[2]
-        ? `<span class="text-secondary-emphasis">Status : <em class="text-info">${n.data.details.union_info[2]}</em></span>
+      null != s &&
+      void 0 !== s.data &&
+      null !== s.data &&
+      void 0 !== s.data.details &&
+      null !== s.data.details &&
+      void 0 !== s.data.details.union_info &&
+      null !== s.data.details.union_info &&
+      void 0 !== s.data.details.union_info[2] &&
+      null !== s.data.details.union_info[2]
+        ? `<span class="text-secondary-emphasis">Status : <em class="text-info">${s.data.details.union_info[2]}</em></span>
     <br>`
         : ""),
-    (o.innerHTML = `
+    (p =
+      null != s &&
+      void 0 !== s.data &&
+      null !== s.data &&
+      void 0 !== s.data.info &&
+      null !== s.data.info &&
+      void 0 !== s.data.info.union_info &&
+      null !== s.data.info.union_info &&
+      void 0 !== s.data.info.union_info
+        ? `<span class="badge bg-primary text-white mb-1">
+    ${s.data.info.union_info.replace(" \xb7 ", " - ")}
+    </span>
+    <br>`
+        : ""),
+    (d.innerHTML = `
   <div class="col-md-3">
     <img src="${BACKEND_URL}/image/${
-      n.data.horizon_cover
-    }@720w_405h_1e_1c_90q.webp" alt="${n.data.title}" class="img-fluid">
+      s.data.horizon_cover
+    }@720w_405h_1e_1c_90q.webp" alt="${s.data.title}" class="img-fluid">
   </div>
   <div class="col-md-9 gy-2">
-    <h5 class="mb-1  text-truncate">${n.data.title}</h5>
+    <h5 class="mb-1  text-truncate">${s.data.title}</h5>
+    ${p}
     <p>
     ${r}
     ${c}
@@ -105,47 +121,42 @@ document.addEventListener("DOMContentLoaded", async function () {
     ${$}
     </p>
     ${(function t() {
-      let e = n.data.details.styles;
+      let e = s.data.details.styles;
       return e && e.style && Array.isArray(e.style)
         ? e.style.map((t) => t.title)
-        : n.data.details.union_info
-        ? n.data.details.union_info.slice(0, 3)
         : [];
     })()
       .map((t) => `<span class="badge bg-success mb-3 me-2">${t}</span>`)
       .join("")}
-      <span class="badge bg-danger mb-3 me-2"><i class="fa fa-eye me-2"></i>${
-        n.data.stat.views
-      }</span>
   </div>
   <div class="col-md-12">
     <p class="more-content text-secondary-emphasis text-truncate mt-3">
-      <small>${n.data.details.desc.value}</small>
+      <small>${s.data.details.desc.value}</small>
     </p>
     <a href="javascript:void(0)" class="show-more">Selengkapnya</a>
   </div>
 `);
-  let v = document.getElementById("episodes"),
-    f = n.data.sections.section,
-    h = 1,
-    g = 0;
-  f.forEach((t) => {
-    t.ep_details && t.ep_details.length > 0 && (g += t.ep_details.length);
+  let f = document.getElementById("episodes"),
+    h = s.data.sections.section,
+    g = 1,
+    b = 0;
+  h.forEach((t) => {
+    t.ep_details && t.ep_details.length > 0 && (b += t.ep_details.length);
   });
-  let b = Math.ceil(g / 30);
+  let _ = Math.ceil(b / 30);
   (function t() {
-    v.innerHTML = "";
-    let e = (h - 1) * 30,
+    f.innerHTML = "";
+    let e = (g - 1) * 30,
       a = e + 30,
       i = 0;
-    for (let l = 0; l < f.length; l++) {
-      let s = f[l];
-      if (s.ep_details && s.ep_details.length > 0)
-        for (let n = 0; n < s.ep_details.length; n++) {
+    for (let l = 0; l < h.length; l++) {
+      let n = h[l];
+      if (n.ep_details && n.ep_details.length > 0)
+        for (let s = 0; s < n.ep_details.length; s++) {
           if (i >= e && i < a) {
-            let d = s.ep_details[n],
-              o = document.createElement("button");
-            o.classList.add(
+            let o = n.ep_details[s],
+              d = document.createElement("button");
+            d.classList.add(
               "btn",
               "btn-light",
               "btn-sm",
@@ -153,15 +164,15 @@ document.addEventListener("DOMContentLoaded", async function () {
               "mb-2",
               "d-flex"
             ),
-              o.setAttribute("data-episode", d.episode_id),
-              o.setAttribute("data-poster", d.horizontal_cover),
-              o.setAttribute("title", d.long_title_display),
-              (o.textContent = d.title),
-              v.appendChild(o),
+              d.setAttribute("data-episode", o.episode_id),
+              d.setAttribute("data-poster", o.horizontal_cover),
+              d.setAttribute("title", o.long_title_display),
+              (d.textContent = o.title),
+              f.appendChild(d),
               0 === i &&
-                (o.classList.add("currentPlay"),
-                o.classList.add("bg-success"),
-                o.classList.add("text-white"));
+                (d.classList.add("currentPlay"),
+                d.classList.add("bg-success"),
+                d.classList.add("text-white"));
           }
           i++;
         }
@@ -175,41 +186,41 @@ document.addEventListener("DOMContentLoaded", async function () {
       let l = document.createElement("button");
       l.classList.add("btn", "btn-primary", "btn-pagination", "btn-sm", "me-2"),
         (l.innerHTML = "Prev"),
-        1 === h && (l.style.display = "none"),
+        1 === g && (l.style.display = "none"),
         l.addEventListener("click", () => {
-          h--, t();
+          g--, t();
         }),
         i.appendChild(l);
-      let s = document.createElement("button");
-      s.classList.add("btn", "btn-primary", "btn-pagination", "btn-sm", "ms-2"),
-        (s.innerHTML = "Next"),
-        h === b && (s.style.display = "none"),
-        s.addEventListener("click", () => {
-          h++, t();
+      let n = document.createElement("button");
+      n.classList.add("btn", "btn-primary", "btn-pagination", "btn-sm", "ms-2"),
+        (n.innerHTML = "Next"),
+        g === _ && (n.style.display = "none"),
+        n.addEventListener("click", () => {
+          g++, t();
         }),
-        i.appendChild(s);
+        i.appendChild(n);
     })();
   })();
   let y = document.getElementById("episodes"),
-    _ = y.querySelector(".currentPlay"),
-    w = _.getAttribute("data-episode"),
-    x = _.getAttribute("data-poster");
-  "" !== e || (e = w), (a = `${BACKEND_URL}/v1/video/${e}/360P`);
-  let L = async (t) => {
+    w = y.querySelector(".currentPlay"),
+    x = w.getAttribute("data-episode"),
+    L = w.getAttribute("data-poster");
+  "" !== e || (e = x), (a = `${BACKEND_URL}/v1/video/${e}/360P`);
+  let P = async (t) => {
       let e = await fetch(`${BACKEND_URL}/v1/subtitle/${t}`),
         a = await e.text();
       if (a.includes("WEBVTT"));
       else if (a.includes("WibuTv")) return "ass";
       return "vtt";
     },
-    P = await L(e),
-    H = new Audio(`${BACKEND_URL}/v1/audio/${e}/360P`),
-    T = new Artplayer({
+    H = await P(e),
+    T = new Audio(`${BACKEND_URL}/v1/audio/${e}/360P`),
+    V = new Artplayer({
       container: ".artplayer-app",
       url: a,
       type: "m4s",
-      poster: `${BACKEND_URL}/image/${x}@720w_405h_1e_1c_90q.webp`,
-      title: n.data.title,
+      poster: `${BACKEND_URL}/image/${L}@720w_405h_1e_1c_90q.webp`,
+      title: s.data.title,
       fullscreen: !0,
       fullscreenWeb: !0,
       miniProgressBar: !0,
@@ -240,7 +251,7 @@ document.addEventListener("DOMContentLoaded", async function () {
       ],
       subtitle: {
         url: `${BACKEND_URL}/v1/subtitle/${e}`,
-        type: P,
+        type: H,
         style: { color: "#ffff", fontSize: "18px" },
         encoding: "utf-8",
       },
@@ -266,38 +277,38 @@ document.addEventListener("DOMContentLoaded", async function () {
           '<img width="16" heigth="16" src="/assets/img/indicator.svg">',
       },
     });
-  T.on("video:volumechange", () => {
-    T.muted ? (H.muted = !0) : ((H.muted = !1), (H.volume = T.volume));
+  V.on("video:volumechange", () => {
+    V.muted ? (T.muted = !0) : ((T.muted = !1), (T.volume = V.volume));
   }),
-    T.on("play", () => {
-      "360P" !== t && ((H.currentTime = T.currentTime), H.play());
+    V.on("play", () => {
+      "360P" !== t && ((T.currentTime = V.currentTime), T.play());
     }),
-    T.on("pause", () => {
-      "360P" === t || H.paused || H.pause();
+    V.on("pause", () => {
+      "360P" === t || T.paused || T.pause();
     }),
-    T.on("video:pause", () => {
-      "360P" === t || H.paused || H.pause();
+    V.on("video:pause", () => {
+      "360P" === t || T.paused || T.pause();
     }),
-    T.on("video:timeupdate", () => {
-      "360P" !== t && (H.currentTime = T.currentTime);
+    V.on("video:timeupdate", () => {
+      "360P" !== t && (T.currentTime = V.currentTime);
     }),
-    T.on("fullscreen", () => {
-      T.fullscreen
-        ? T.subtitle.style({ fontSize: "3vw", "margin-bottom": "30px" })
-        : T.subtitle.style({ fontSize: "18px", "margin-bottom": "0px" });
+    V.on("fullscreen", () => {
+      V.fullscreen
+        ? V.subtitle.style({ fontSize: "3vw", "margin-bottom": "30px" })
+        : V.subtitle.style({ fontSize: "18px", "margin-bottom": "0px" });
     }),
-    T.on("fullscreenWeb", () => {
-      T.fullscreenWeb
-        ? T.subtitle.style({ fontSize: "3vw", "margin-bottom": "30px" })
-        : T.subtitle.style({ fontSize: "18px", "margin-bottom": "0px" });
+    V.on("fullscreenWeb", () => {
+      V.fullscreenWeb
+        ? V.subtitle.style({ fontSize: "3vw", "margin-bottom": "30px" })
+        : V.subtitle.style({ fontSize: "18px", "margin-bottom": "0px" });
     }),
-    T.on("video:loadstart", () => {
+    V.on("video:loadstart", () => {
       if (
         ((a = `${BACKEND_URL}/v1/video/${e}/${(t = (function e(a) {
           let i = a.match(/\/([^/]+)$/);
           return i ? i[1] : t;
-        })(T.url))}`),
-        T.switchUrl(a),
+        })(V.url))}`),
+        V.switchUrl(a),
         "360P" == t)
       ) {
         let i = document.querySelector(".art-control-fullscreen");
@@ -305,38 +316,38 @@ document.addEventListener("DOMContentLoaded", async function () {
           var l = document.querySelector(".art-control-fullscreen");
           l.style.display = "none";
         } else {
-          let s = document.querySelector(".art-controls-right"),
-            n = document.createElement("div");
-          n.classList.add(
+          let n = document.querySelector(".art-controls-right"),
+            s = document.createElement("div");
+          s.classList.add(
             "art-control",
             "art-control-fullscreen",
             "hint--rounded",
             "hint--top"
           ),
-            n.setAttribute("data-index", "70"),
-            n.setAttribute("aria-label", "Fullscreen"),
-            n.setAttribute("style", "display: none;"),
-            (n.innerHTML =
+            s.setAttribute("data-index", "70"),
+            s.setAttribute("aria-label", "Fullscreen"),
+            s.setAttribute("style", "display: none;"),
+            (s.innerHTML =
               '<i class="art-icon art-icon-fullscreenOn" style="display: inline-flex;"><svg class="icon" width="22" height="22" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg"><path fill="#fff" d="M625.778 256H768v142.222h113.778v-256h-256V256zM256 398.222V256h142.222V142.222h-256v256H256zm512 227.556V768H625.778v113.778h256v-256H768zM398.222 768H256V625.778H142.222v256h256V768z"></path></svg></i><i class="art-icon art-icon-fullscreenOff" style="display: none;"><svg class="icon" width="22" height="22" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg"><path fill="#fff" d="M768 298.667h170.667V384h-256V128H768v170.667zM341.333 384h-256v-85.333H256V128h85.333v256zM768 725.333V896h-85.333V640h256v85.333H768zM341.333 640v256H256V725.333H85.333V640h256z"></path></svg></i>'),
-            s.appendChild(n);
+            n.appendChild(s);
         }
       } else {
         var l = document.querySelector(".art-control-fullscreen");
         l.style.display = "block";
       }
       if ("360P" !== t) {
-        let d = a.replace("video", "audio");
-        H.src = d;
+        let o = a.replace("video", "audio");
+        T.src = o;
       }
     });
-  let V = async (a, i) => {
-    let l = await L(a);
-    (T.poster = `${BACKEND_URL}/image/${i}@720w_405h_1e_1c_90q.webp`),
-      T.switchUrl(`${BACKEND_URL}/v1/video/${e}/${t}`),
-      (T.subtitle.url = `${BACKEND_URL}/v1/subtitle/${a}`),
-      (T.subtitle.type = l),
-      (H.src = `${BACKEND_URL}/v1/audio/${a}/${t}`),
-      H.load();
+  let z = async (a, i) => {
+    let l = await P(a);
+    (V.poster = `${BACKEND_URL}/image/${i}@720w_405h_1e_1c_90q.webp`),
+      V.switchUrl(`${BACKEND_URL}/v1/video/${e}/${t}`),
+      (V.subtitle.url = `${BACKEND_URL}/v1/subtitle/${a}`),
+      (V.subtitle.type = l),
+      (T.src = `${BACKEND_URL}/v1/audio/${a}/${t}`),
+      T.load();
   };
   y.addEventListener("click", async (i) => {
     if ("BUTTON" === i.target.tagName) {
@@ -348,14 +359,14 @@ document.addEventListener("DOMContentLoaded", async function () {
         i.target.classList.add("currentPlay"),
         i.target.classList.add("bg-success"),
         i.target.classList.add("text-white"),
-        T.pause,
-        (T.poster = "/assets/img/default.jpg"),
-        (T.loading.show = !0);
-      let s = i.target.getAttribute("data-episode"),
-        n = i.target.getAttribute("data-poster");
-      (a = `${BACKEND_URL}/v1/video/${(e = s)}/${t}`),
-        await V(e, n),
-        (T.loading.show = !1);
+        V.pause,
+        (V.poster = "/assets/img/default.jpg"),
+        (V.loading.show = !0);
+      let n = i.target.getAttribute("data-episode"),
+        s = i.target.getAttribute("data-poster");
+      (a = `${BACKEND_URL}/v1/video/${(e = n)}/${t}`),
+        await z(e, s),
+        (V.loading.show = !1);
     }
   });
 });
